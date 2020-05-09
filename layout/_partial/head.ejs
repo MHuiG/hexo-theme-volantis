@@ -102,10 +102,11 @@
       <% } %>
     <% } %>
   </script>
+
   <% if (config.favicon) { %>
   <link rel="shortcut icon" type='image/x-icon' href="<%- url_for(config.favicon) %>">
   <% } %>
-  
+
   <!-- import link -->
   <% if (config.import && config.import.link){ %>
   <% (config.import.link||[]).forEach(function(item){ %>
