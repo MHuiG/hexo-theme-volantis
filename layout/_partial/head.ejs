@@ -96,6 +96,11 @@
     <% if (theme.comments.vssue && theme.comments.vssue.clientId) { %>
     loadCSS( "https://cdn.jsdelivr.net/gh/meteorlxy/vssue@1.4.4/packages/vssue/dist/vssue.min.css", document.getElementById("loadcss") );
     <% } %>
+	<% if (config.highlight.enable != true) { %>
+      <% if (theme.plugins.highlightjs && theme.plugins.highlightjs.css) { %>
+	  loadCSS( "<%- theme.plugins.highlightjs.css %>", document.getElementById("loadcss") );
+      <% } %>
+    <% } %>
   </script>
   <% if (config.favicon) { %>
   <link rel="shortcut icon" type='image/x-icon' href="<%- url_for(config.favicon) %>">
@@ -107,11 +112,6 @@
   <%- item %><% }) %>
   <% } %>
 
-  <% if (config.highlight.enable != true) { %>
-    <% if (theme.plugins.highlightjs && theme.plugins.highlightjs.css) { %>
-      <%- css(theme.plugins.highlightjs.css) %>
-    <% } %>
-  <% } %>
   <% if (config.use_cdn && theme.info.cdn && theme.info.cdn.css) { %>
     <%- css(theme.info.cdn.css) %>
   <% } else { %>
