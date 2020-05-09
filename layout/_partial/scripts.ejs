@@ -62,7 +62,7 @@
   }
    %>
   <% if (imgs != undefined && theme.plugins.backstretch.position != undefined){ %>
-    <%- js(theme.plugins.backstretch.js) %>
+    <%- js({src:theme.plugins.backstretch.js,aysc:true}) %>
     <script type="text/javascript">
       $(function(){
         var imgs=<%- '["' + imgs.join('", "') + '"]' %>;
