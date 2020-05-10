@@ -35,6 +35,11 @@
       });
     });
   </script>
+  <script type="text/javascript">
+      $("body > div.l_body > div > div > section > div:nth-child(3) > article").addClass("reveal");
+      $("body > div.l_body > div > div > section > div:nth-child(4) > article").addClass("reveal");
+      $("body > div.l_body > div > div > section > div:nth-child(5) > article").addClass("reveal");
+  </script>
 <% } %>
 <% if (theme.plugins.nodewaves && theme.plugins.nodewaves.js) { %>
   <%- js({src: theme.plugins.nodewaves.js,aysc:true}) %>
