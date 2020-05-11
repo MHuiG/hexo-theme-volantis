@@ -402,3 +402,39 @@ var customSearch;
 
 
 })(jQuery);
+
+/*code-block-fullscreen*/
+$("figcaption").click(function () {
+	if (window.CodeBlockFullscreen) {
+		$("#post").removeClass("code-block-fullscreen");
+		$(this).parent().removeClass("code-block-fullscreen");
+		$(this).parent().removeClass("code-block-fullscreen-overflow-auto");
+		$("html").removeClass("code-block-fullscreen-html-scroll");
+		$(".highlight>table .gutter").removeClass("code-block-fullscreen-gutter");
+		window.CodeBlockFullscreen = false
+	} else {
+		$("#post").addClass("code-block-fullscreen");
+		$(this).parent().addClass("code-block-fullscreen");
+		$(this).parent().addClass("code-block-fullscreen-overflow-auto");
+		$("html").addClass("code-block-fullscreen-html-scroll");
+		$(".highlight>table .gutter").addClass("code-block-fullscreen-gutter");
+		window.CodeBlockFullscreen = true
+	}
+});
+
+function isSupportWebp() {
+  try {
+    return document.createElement('canvas').toDataURL('image/webp', 0.5).indexOf('data:image/webp') === 0;
+  } catch(err) {
+    return false;
+  }
+}
+function LogoChange(){
+	if (typeof jQuery != 'undefined') {
+		if(!isSupportWebp()){
+			$("section.widget.blogger> div > a > img").attr("src","https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn/assets/avatar/avatar-240.png");
+			$("#header-meta > div > div.new-meta-item.author > a > img").attr("src","https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn/assets/avatar/avatar-16.png");
+		}
+	}
+}
+setInterval("LogoChange()",1000);

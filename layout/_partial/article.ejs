@@ -58,3 +58,17 @@
   <%- partial('../_third-party/mathjax') %>
 <% } %>
 
+
+<% if (page.layout == 'post' && page.title){ %>
+  <script>
+    window.subData = {
+      title: '<%- post.title %>',
+      tools: true
+    }
+  </script>
+<% } %>
+
+<% if (theme.plugins.pdf.enable){ %>
+  <%- partial('../_third-party/pdf') %>
+<% } %>
+
