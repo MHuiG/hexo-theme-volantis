@@ -371,7 +371,7 @@ $("figcaption").click(function () {
 		window.CodeBlockFullscreen = true
 	}
 });
-
+/*SupportWebp*/
 function isSupportWebp() {
   try {
     return document.createElement('canvas').toDataURL('image/webp', 0.5).indexOf('data:image/webp') === 0;
@@ -388,3 +388,13 @@ function LogoChange(){
 	}
 }
 setInterval("LogoChange()",1000);
+/*Valine Admin*/
+if(window.location.hash){
+	var checkExist = setInterval(function() {
+	   if (typeof jQuery == 'undefined'){return;}
+	   if ($("#"+window.location.hash.split("#")[1]).length) {
+		  $('html, body').animate({scrollTop: $("#"+window.location.hash.split("#")[1]).offset().top-90}, 1000);
+		  clearInterval(checkExist);
+	   }
+	}, 100);
+}
