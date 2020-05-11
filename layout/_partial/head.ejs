@@ -62,12 +62,16 @@
       }
     }
   %>
-    <title><% if (title) { %><%= title %> - <% } %><%= config.title %></title>
+  <title><% if (title) { %><%= title %> - <% } %><%= config.title %></title>
   <% if (keywords){ %>
     <meta name="keywords" content="<%- keywords %>">
+  <% } else { %>
+    <meta name="keywords" content="<%- config.keywords || '' %>">
   <% } %>
   <% if (description){ %>
     <meta name="description" content="<%- description %>">
+  <% } else { %>
+    <meta name="description" content="<%- config.description || '' %>">
   <% } %>
 
   <!-- feed -->
@@ -84,6 +88,7 @@
 
   <!-- link -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn@latest/fonts/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
   <script aysc src="https://cdn.jsdelivr.net/npm/fg-loadcss@3.1.0/src/loadCSS.min.js"></script>
   <script id="loadcss">
     loadCSS( "https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss") );
@@ -103,8 +108,9 @@
     <% } %>
   </script>
 
+
   <% if (config.favicon) { %>
-  <link rel="shortcut icon" type='image/x-icon' href="<%- url_for(config.favicon) %>">
+    <link rel="shortcut icon" type='image/x-icon' href="<%- url_for(config.favicon) %>">
   <% } %>
 
   <!-- import link -->
@@ -119,11 +125,7 @@
     <%- css('css/style.css') %>
   <% } %>
 
-  <script>
-    function setLoadingBarProgress(num) {
-      document.getElementById('loading-bar').style.width=num+"%";
-    }
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
 
   <% if (config.google_analytics_key) { %>
     <!-- Global site tag (gtag.js) - Google Analytics -->
