@@ -239,13 +239,23 @@
       return path + "/" + path + "-" + idx + "." + ext;
     }
 
-    var emojiMaps = {};
-    for (var i = 1; i <= 101; i++) {
-      emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
-    }
-    for (var i = 1; i <= 4; i++) {
-      emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
-    }
+
+	var emojiMaps = {};
+	for (var i = 1; i <= 54; i++) {
+	emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+	}
+	for (var i = 1; i <= 101; i++) {
+	emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+	}
+	for (var i = 1; i <= 116; i++) {
+	emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+	}
+	for (var i = 1; i <= 125; i++) {
+	emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+	}
+	for (var i = 1; i <= 4; i++) {
+	emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+	}
 
     function pjax_valine() {
       var valinePath = $.trim($('#valine-path').text()) === "none" ?
@@ -471,4 +481,29 @@
     window.location.href = event.triggerElement.href;
   });
 
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script>
+  window.MathJax = {
+	  tex: {
+		inlineMath: [ ['$','$']],
+		autoload: {
+			verb: ['verb'],
+			color: [],
+			colorV2: ['color'],
+			require:['require']
+		},
+		packages: {'[+]': ['braket']}
+	  },
+	  loader: {load: ['[tex]/braket']},
+	  svg: {
+		fontCache: 'global'
+	  }
+  };
+  try {(new Function("'use strict'; let a; const b = 2;"))()} catch (e) {
+	var polyfill = document.createElement("script");
+	  polyfill.src = "https://polyfill.io/v3/polyfill.min.js?features=es5%2Ces6%2Ces7%2CArray.prototype.forEach%2CElement.prototype.closest'";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(polyfill, s);
+  }
 </script>
