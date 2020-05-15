@@ -278,7 +278,7 @@
         pageSize: '<%= theme.comments.valine.pageSize %>',
         avatar: '<%= theme.comments.valine.avatar %>',
         lang: '<%= theme.comments.valine.lang %>',
-        visitor: '<%= theme.comments.valine.visitor %>',
+        visitor: true,
         highlight: '<%= theme.comments.valine.highlight %>',
         mathJax: '<%= theme.comments.valine.mathJax %>',
         enableQQ: '<%= theme.comments.valine.enableQQ %>',
@@ -302,29 +302,38 @@
   <% if (theme.comments.minivaline.js) { %>
     <%- js(theme.comments.minivaline.js) %>
   <% } else { %>
-    <script src="https://cdn.jsdelivr.net/npm/minivaline/dist/MiniValine.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/minivaline@latest/dist/MiniValine.min.js"></script>
   <% } %>
-  <% var emoticonUrl = theme.comments.minivaline.emoticonUrl %>
+  <% var master = theme.comments.minivaline.master || [] %>
+  <% var friends = theme.comments.minivaline.friends  || []  %>
   <script>
   function pjax_minivaline() {
+      var minivalinePath = $.trim($('#minivaline-path').text()) === "none" ?
+              window.location.pathname : $.trim($('#minivaline-path').text());
+
+      var minivalinePlaceholder = $.trim($('#minivaline-placeholder').text()) === "none" ?
+              "<%= theme.comments.minivaline.placeholder %>" : $.trim($('#minivaline-placeholder').text());
+
+      var ALLPATH = '<%= theme.comments.minivaline.path %>';
+      if(ALLPATH != '') minivalinePath = ALLPATH;
 	  new MiniValine({
 		el: '#minivaline_container',
 		appId: '<%= theme.comments.minivaline.appId %>',
 		appKey: '<%= theme.comments.minivaline.appKey %>',
-		placeholder: '<%= theme.comments.minivaline.placeholder %>',
-		<% if (page.minivaline && page.minivaline.path) { %>
-		  path: "<%= page.minivaline.path %>",
-		<% } else if (theme.comments.minivaline.path) { %>
-		  path: "<%= theme.comments.minivaline.path %>",
-		<% } %>
+		mode: '<%= theme.comments.minivaline.mode %>',
+		placeholder: minivalinePlaceholder,
+		pathname: minivalinePath,
 		lang: '<%= theme.comments.minivaline.lang %>',
 		adminEmailMd5: '<%= theme.comments.minivaline.adminEmailMd5 %>',
-		math: '<%= theme.comments.minivaline.math %>',
-		md: '<%= theme.comments.minivaline.md %>',
-		NoRecordIP: '<%= theme.comments.minivaline.NoRecordIP %>',
-		maxNest: '<%= theme.comments.minivaline.maxNest %>',
-		pageSize: '<%= theme.comments.minivaline.pageSize %>',
-		emoticonUrl: <%- '["' + emoticonUrl.join('", "') + '"]' %>
+		math: <%= theme.comments.minivaline.math %>,
+		md: <%= theme.comments.minivaline.md %>,
+		visitor: <%= theme.comments.minivaline.visitor %>,
+		NoRecordIP: <%= theme.comments.minivaline.NoRecordIP %>,
+		maxNest: <%= theme.comments.minivaline.maxNest %>,
+		pageSize: <%= theme.comments.minivaline.pageSize %>,
+        tagMeta: ["管理员", "小伙伴", "访客"],
+        master: <%- '["' + master.join('", "') + '"]' %>,
+        friends: <%- '["' + friends.join('", "') + '"]' %>
 	  });
 	}
 
@@ -503,29 +512,4 @@
     window.location.href = event.triggerElement.href;
   });
 
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-<script>
-  window.MathJax = {
-	  tex: {
-		inlineMath: [ ['$','$']],
-		autoload: {
-			verb: ['verb'],
-			color: [],
-			colorV2: ['color'],
-			require:['require']
-		},
-		packages: {'[+]': ['braket']}
-	  },
-	  loader: {load: ['[tex]/braket']},
-	  svg: {
-		fontCache: 'global'
-	  }
-  };
-  try {(new Function("'use strict'; let a; const b = 2;"))()} catch (e) {
-	var polyfill = document.createElement("script");
-	  polyfill.src = "https://polyfill.io/v3/polyfill.min.js?features=es5%2Ces6%2Ces7%2CArray.prototype.forEach%2CElement.prototype.closest'";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(polyfill, s);
-  }
 </script>
