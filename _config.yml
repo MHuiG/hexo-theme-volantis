@@ -511,7 +511,7 @@ comments:
   minivaline:
     appId: # Your leancloud application appid
     appKey: # Your leancloud application appkey
-    js: https://unpkg.com/minivaline@latest/dist/MiniValine.min.js
+    js: https://cdn.jsdelivr.net/npm/minivaline/dist/MiniValine.min.js
     placeholder: Write a Comment # Comment box placeholder
     path: # All pages use the same path (share the same comments data)
     adminEmailMd5: # The MD5 of Admin Email to show Admin Flag.
