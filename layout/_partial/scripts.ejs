@@ -306,25 +306,31 @@
   <% } %>
   <% var emoticonUrl = theme.comments.minivaline.emoticonUrl %>
   <script>
-  new MiniValine({
-    el: '#minivaline_container',
-    appId: '<%= theme.comments.minivaline.appId %>',
-    appKey: '<%= theme.comments.minivaline.appKey %>',
-    placeholder: '<%= theme.comments.minivaline.placeholder %>',
-    <% if (page.minivaline && page.minivaline.path) { %>
-      path: "<%= page.minivaline.path %>",
-    <% } else if (theme.comments.minivaline.path) { %>
-      path: "<%= theme.comments.minivaline.path %>",
-    <% } %>
-    lang: '<%= theme.comments.minivaline.lang %>',
-    adminEmailMd5: '<%= theme.comments.minivaline.adminEmailMd5 %>',
-    math: '<%= theme.comments.minivaline.math %>',
-    md: '<%= theme.comments.minivaline.md %>',
-	NoRecordIP: '<%= theme.comments.minivaline.NoRecordIP %>',
-	maxNest: '<%= theme.comments.minivaline.maxNest %>',
-	pageSize: '<%= theme.comments.minivaline.pageSize %>',
-	emoticonUrl: <%- '["' + emoticonUrl.join('", "') + '"]' %>
-  });
+  function pjax_minivaline() {
+	  new MiniValine({
+		el: '#minivaline_container',
+		appId: '<%= theme.comments.minivaline.appId %>',
+		appKey: '<%= theme.comments.minivaline.appKey %>',
+		placeholder: '<%= theme.comments.minivaline.placeholder %>',
+		<% if (page.minivaline && page.minivaline.path) { %>
+		  path: "<%= page.minivaline.path %>",
+		<% } else if (theme.comments.minivaline.path) { %>
+		  path: "<%= theme.comments.minivaline.path %>",
+		<% } %>
+		lang: '<%= theme.comments.minivaline.lang %>',
+		adminEmailMd5: '<%= theme.comments.minivaline.adminEmailMd5 %>',
+		math: '<%= theme.comments.minivaline.math %>',
+		md: '<%= theme.comments.minivaline.md %>',
+		NoRecordIP: '<%= theme.comments.minivaline.NoRecordIP %>',
+		maxNest: '<%= theme.comments.minivaline.maxNest %>',
+		pageSize: '<%= theme.comments.minivaline.pageSize %>',
+		emoticonUrl: <%- '["' + emoticonUrl.join('", "') + '"]' %>
+	  });
+	}
+
+    $(function () {
+      pjax_minivaline();
+    });
   </script>
 <% } %>
 
@@ -480,6 +486,9 @@
       <% } %>
       <% if (enableValine){ %>
         pjax_valine();
+      <% } %>
+      <% if (enableMiniValine){ %>
+        pjax_minivaline();
       <% } %>
     } catch (e) {
       console.log(e);
