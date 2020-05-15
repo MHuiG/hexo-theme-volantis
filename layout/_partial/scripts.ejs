@@ -223,8 +223,8 @@
   <% } else { %>
     <%- js(['js/valine.js']) %>
   <% } %>
-  <% var master = theme.comments.valine.master %>
-  <% var friends = theme.comments.valine.friends %>
+  <% var master = theme.comments.valine.master || [] %>
+  <% var friends = theme.comments.valine.friends  || []  %>
   <script>
     var GUEST_INFO = ['nick', 'mail', 'link'];
     var meta = '<%= theme.comments.valine.meta %>'.split(',').filter(function (item) {
