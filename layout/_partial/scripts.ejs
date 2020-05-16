@@ -238,23 +238,22 @@
       return path + "/" + path + "-" + idx + "." + ext;
     }
 
-
-	var emojiMaps = {};
-	for (var i = 1; i <= 54; i++) {
-	emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
-	}
-	for (var i = 1; i <= 101; i++) {
-	emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
-	}
-	for (var i = 1; i <= 116; i++) {
-	emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
-	}
-	for (var i = 1; i <= 125; i++) {
-	emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
-	}
-	for (var i = 1; i <= 4; i++) {
-	emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
-	}
+    var emojiMaps = {};
+    for (var i = 1; i <= 54; i++) {
+      emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+    }
+    for (var i = 1; i <= 101; i++) {
+      emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+    }
+    for (var i = 1; i <= 116; i++) {
+      emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+    }
+    for (var i = 1; i <= 125; i++) {
+      emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+    }
+    for (var i = 1; i <= 4; i++) {
+      emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+    }
 
     function pjax_valine() {
       var valinePath = $.trim($('#valine-path').text()) === "none" ?
@@ -313,7 +312,6 @@
         window.location.pathname : $.trim($('#minivaline-path').text());
     var minivalinePlaceholder = $.trim($('#minivaline-placeholder').text()) === "none" ?
         "<%= theme.comments.minivaline.placeholder %>" : $.trim($('#minivaline-placeholder').text());
-
     var ALLPATH = '<%= theme.comments.minivaline.path %>';
     if(ALLPATH != '') minivalinePath = ALLPATH;
 	new MiniValine({
@@ -339,7 +337,6 @@
 		serverURLs: '<%= theme.comments.minivaline.serverURLs %>'
 	  });
 	}
-
     $(function () {
       pjax_minivaline();
     });
@@ -438,8 +435,6 @@
       elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
       selectors: [
         "title",
-        "meta[name=description]",
-        "meta[name=keywords]",
         "#pjax-container"
       ],
       cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
