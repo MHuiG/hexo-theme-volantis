@@ -116,7 +116,7 @@
   <% }) %>
 <% } %>
 
-<!--PS：只对 valine 做了 Pjax 兼容测试-->
+<!--PS：只对 valine 做了 Pjax 兼容-->
 <%
   var enableDisqus = false;
   var enableLivere = false;
@@ -216,7 +216,6 @@
     })
   </script>
 <% } %>
-
 <% if (enableValine){ %>
   <% if (theme.comments.valine.js) { %>
     <%- js(theme.comments.valine.js) %>
@@ -278,7 +277,7 @@
         pageSize: '<%= theme.comments.valine.pageSize %>',
         avatar: '<%= theme.comments.valine.avatar %>',
         lang: '<%= theme.comments.valine.lang %>',
-        visitor: true,
+        visitor: <%= theme.comments.valine.visitor %>,
         highlight: '<%= theme.comments.valine.highlight %>',
         mathJax: '<%= theme.comments.valine.mathJax %>',
         enableQQ: '<%= theme.comments.valine.enableQQ %>',
@@ -304,19 +303,20 @@
   <% } else { %>
     <script src="https://cdn.jsdelivr.net/npm/minivaline@latest/dist/MiniValine.min.js"></script>
   <% } %>
+  <% var emoticonUrl = theme.comments.minivaline.emoticonUrl || [] %>
+  <% var tagMeta = theme.comments.minivaline.tagMeta || [] %>
   <% var master = theme.comments.minivaline.master || [] %>
   <% var friends = theme.comments.minivaline.friends  || []  %>
   <script>
   function pjax_minivaline() {
-      var minivalinePath = $.trim($('#minivaline-path').text()) === "none" ?
-              window.location.pathname : $.trim($('#minivaline-path').text());
+    var minivalinePath = $.trim($('#minivaline-path').text()) === "none" ?
+        window.location.pathname : $.trim($('#minivaline-path').text());
+    var minivalinePlaceholder = $.trim($('#minivaline-placeholder').text()) === "none" ?
+        "<%= theme.comments.minivaline.placeholder %>" : $.trim($('#minivaline-placeholder').text());
 
-      var minivalinePlaceholder = $.trim($('#minivaline-placeholder').text()) === "none" ?
-              "<%= theme.comments.minivaline.placeholder %>" : $.trim($('#minivaline-placeholder').text());
-
-      var ALLPATH = '<%= theme.comments.minivaline.path %>';
-      if(ALLPATH != '') minivalinePath = ALLPATH;
-	  new MiniValine({
+    var ALLPATH = '<%= theme.comments.minivaline.path %>';
+    if(ALLPATH != '') minivalinePath = ALLPATH;
+	new MiniValine({
 		el: '#minivaline_container',
 		appId: '<%= theme.comments.minivaline.appId %>',
 		appKey: '<%= theme.comments.minivaline.appKey %>',
@@ -325,15 +325,17 @@
 		pathname: minivalinePath,
 		lang: '<%= theme.comments.minivaline.lang %>',
 		adminEmailMd5: '<%= theme.comments.minivaline.adminEmailMd5 %>',
-		math: <%= theme.comments.minivaline.math %>,
+		tagMeta: <%- '["' + tagMeta.join('", "') + '"]' %>,
+		master: <%- '["' + master.join('", "') + '"]' %>,
+		friends: <%- '["' + friends.join('", "') + '"]' %>,
+		math: <%= theme.comments.minivaline.math %>,  /*布尔值 字符串无效 下同*/
 		md: <%= theme.comments.minivaline.md %>,
-		visitor: <%= theme.comments.minivaline.visitor %>,
+		enableQQ: <%= theme.comments.minivaline.enableQQ %>,
 		NoRecordIP: <%= theme.comments.minivaline.NoRecordIP %>,
+		visitor: <%= theme.comments.minivaline.visitor %>,
 		maxNest: <%= theme.comments.minivaline.maxNest %>,
 		pageSize: <%= theme.comments.minivaline.pageSize %>,
-        tagMeta: ["管理员", "小伙伴", "访客"],
-        master: <%- '["' + master.join('", "') + '"]' %>,
-        friends: <%- '["' + friends.join('", "') + '"]' %>
+		emoticonUrl: <%- '["' + emoticonUrl.join('", "') + '"]' %>
 	  });
 	}
 
@@ -343,13 +345,13 @@
   </script>
 <% } %>
 
-<!-- 复制 -fix -->
+
+<!-- 复制 -->
 <% if (theme.plugins.clipboard && (theme.style.body.highlight.copy_btn == true)) { %>
   <%- partial('_third-party/clipboard') %>
 <% } %>
-<!-- ******************************** -->
 
-<!--scrollreveal -fix -->
+<!--scrollreveal -->
 <% if (theme.plugins.scrollreveal && theme.plugins.scrollreveal.js) { %>
   <script src="<%- theme.plugins.scrollreveal.js %>"></script>
   <script type="text/javascript">
@@ -369,11 +371,10 @@
 <% } %>
 <!-- ******************************** -->
 
-<!-- fancybox -fix -->
+<!-- fancybox -->
 <%- partial('_third-party/fancybox') %>
 <!-- ******************************** -->
 
-<!--主要的 JS 文件-->
 <% if (config.use_cdn && theme.info.cdn && theme.info.cdn.js) { %>
   <%- js(theme.info.cdn.js) %>
 <% } else { %>
@@ -389,7 +390,10 @@
   <% } %>
 <% } %>
 
-<!--无需处理-->
+<% if (theme.plugins.busuanzi) { %>
+  <script defer src="<%- theme.plugins.busuanzi %>" data-pjax></script>
+<% } %>
+
 <% if (theme.plugins.nodewaves && theme.plugins.nodewaves.js) { %>
   <%- js({src: theme.plugins.nodewaves.js}) %>
   <script type="text/javascript">
@@ -405,7 +409,6 @@
   </script>
 <% } %>
 
-<!--无需处理-->
 <% if (theme.plugins.comment_typing) { %>
   <%- js({src:theme.plugins.comment_typing,aysc:true}) %>
 <% } %>
@@ -423,27 +426,9 @@
 <%- item %><% }) %>
 <% } %>
 
-<%- js(['js/message.js']) %>
-
 <script>
   $(document).ready(function () {
     NProgress.done();
-
-    <% if (theme.plugins.aplayer.enable == true && theme.plugins.aplayer.autoplay == true) { %>
-      if($(window).width() > 500) {
-        var isplay = true;
-        $.message({title:'音乐播放',message:"即将自动播放，点击<a class='stopMusic'>停止播放</a>",type:'warning'});
-        setTimeout(function() {
-          if(isplay)
-            document.querySelector('meting-js').aplayer.play();
-        }, 3050)
-        $(".stopMusic").click(function() {
-          $(".c-message--close").click();
-          isplay = false;
-          // document.querySelector('meting-js').aplayer.pause();
-        })
-      }
-    <% } %>
   });
 
   var pjax;
@@ -465,17 +450,14 @@
     window.stop(); // 相当于点击了浏览器的停止按钮
     window.subData = null; // 移除标题（用于一二级导航栏切换处）
 
-    $.fancybox.close();    // 关闭弹窗，曾经有人提过个BUG，在查看图片时浏览器返回上一页后，弹窗无法关闭了
-
+    $.fancybox.close();    // 关闭弹窗
     $('.l_header .switcher .s-search').removeClass('active'); // 关闭移动端激活的搜索框
     $('.l_header').removeClass('z_search-open'); // 关闭移动端激活的搜索框
     $('.wrapper').removeClass('sub'); // 跳转页面时关闭二级导航
-
     $(window).unbind('resize');    // 解绑
     $(window).unbind('scroll');    // 解绑
     $(window).unbind('click');     // 解绑
     $(document).unbind('scroll');  // 解绑
-
     NProgress.start();
   });
 
@@ -508,7 +490,6 @@
 
   document.addEventListener('pjax:error', function () {
     NProgress.done();
-    $.message({title:'事件通知',message:"链接加载失败，执行强制刷新！",type:'warning'});
     window.location.href = event.triggerElement.href;
   });
 

@@ -3,17 +3,20 @@
 
 <%
 var changeValinePath = 'none';                // 自定义的 valine 评论路径
-var changeValinePlaceholder = 'none';         // 自定义的 valine 评论描述 
+var changeValinePlaceholder = 'none';         // 自定义的 valine 评论描述
 var changeMiniValinePath = 'none';                // 自定义的 Minivaline 评论路径
-var changeMiniValinePlaceholder = 'none';         // 自定义的 Minivaline 评论描述 
+var changeMiniValinePlaceholder = 'none';         // 自定义的 Minivaline 评论描述
 var ispage = false;                           // 一二级导航栏切换控制
 var postTitle = '';                           // 当前文章标题，用于二级导航栏赋值
 var enableCover = false;                      // 封面是否开启
 var frontMatterCover = 'none';                // 封面控制
+
+
 var enableValine = false;
 if (theme.comments && page && page.comments == true && theme.comments.valine && theme.comments.valine.appId) {
     enableValine = true;
 }
+
 if (page && page.comments == true) {
     if (enableValine && page.valine && page.valine.path) {
         changeValinePath = page.valine.path;
@@ -22,6 +25,7 @@ if (page && page.comments == true) {
         changeValinePlaceholder = page.valine.placeholder;
     }
 }
+
 var enableMiniValine = false;
 if (theme.comments && page && page.comments == true && theme.comments.minivaline && theme.comments.minivaline.appId) {
     enableMiniValine = true;
@@ -37,6 +41,7 @@ if (page && page.comments == true) {
 if(theme.cover && theme.cover.scheme) {
     enableCover = true;
 }
+
 if (enableCover && page && page.cover) {
     frontMatterCover = page.cover;
     if (is_home() && page.prev == 0 && theme.cover.scheme == 'docs') {
@@ -45,10 +50,12 @@ if (enableCover && page && page.cover) {
         frontMatterCover = 'blog';
     }
 }
+
 if (page && page.layout == 'post' && page.title) {
     ispage = true;
     postTitle = page.title;
 }
+
 %>
 
 <div id="pjax-data" style="display: none">
@@ -67,7 +74,7 @@ if (page && page.layout == 'post' && page.title) {
 
 <% if (enableCover) { %>
 <script>
-    // 处理封面 - blog    此时 jquery 还没加载，线用原生顶着
+    // 处理封面 此时 jquery 还没加载
     if("<%=frontMatterCover%>" == "none") {  // 移除封面
         document.getElementsByClassName('cover')[0].style.display = "none";  
         document.getElementsByClassName('l_body')[0].classList.add("nocover");
