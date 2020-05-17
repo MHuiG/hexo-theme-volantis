@@ -1,3 +1,4 @@
+ <%- js({src:'https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js',aysc:true}) %>
 <%- js('https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js') %>
 
 <% if (theme.search && theme.search.enable) { %>
@@ -24,7 +25,7 @@
 
 <!--无许处理 - 确认兼容-->
 <% if (theme.plugins.instant_page) { %>
-  <script async src="<%- theme.plugins.instant_page %>" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+  <script async src="<%- theme.plugins.instant_page %>" type="module" integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
 <% } %>
 <% if (theme.plugins.scrollreveal && theme.plugins.scrollreveal.js) { %>
   <script aysc src="<%- theme.plugins.scrollreveal.js %>"></script>
@@ -109,7 +110,7 @@
 <!--似乎不需要处理-->
 <% if (theme.plugins.aplayer && theme.plugins.aplayer.enable && theme.plugins.aplayer.js) { %>
   <% (theme.plugins.aplayer.js||[]).forEach(function(item){ %>
-    <%- js({src:item,defer:true}) %>
+    <%- js({src:item,aysc:true}) %>
   <% }) %>
 <% } %>
 
@@ -379,7 +380,7 @@
 <!--fix-->
 <% if (theme.search && theme.search.enable) { %>
   <% if (theme.search.js) { %>
-    <%- js({src:theme.search.js,defer:true}) %>
+    <%- js({src:theme.search.js,aysc:true}) %>
   <% } else { %>
     <%- js(['js/search.js']) %>
   <% } %>
@@ -405,13 +406,13 @@
 <% } %>
 
 <% if (theme.plugins.comment_typing) { %>
-  <%- js({src:theme.plugins.comment_typing,defer:true}) %>
+  <%- js({src:theme.plugins.comment_typing,aysc:true}) %>
 <% } %>
 
 <!--无需处理 ？-->
 <% if (config.highlight.enable != true) { %>
   <% if (theme.plugins.highlightjs && theme.plugins.highlightjs.js) { %>
-    <%- js({src:theme.plugins.highlightjs.js,defer:true}) %>
+    <%- js({src:theme.plugins.highlightjs.js,aysc:true}) %>
     <script>hljs.initHighlightingOnLoad();</script>
   <% } %>
 <% } %>
