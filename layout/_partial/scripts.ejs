@@ -443,7 +443,7 @@
   document.addEventListener('pjax:send', function () {
     setTimeout(
       window.stop() // 相当于点击了浏览器的停止按钮
-	,1500)
+	,2000)
     window.subData = null; // 移除标题（用于一二级导航栏切换处）
 
     $.fancybox.close();    // 关闭弹窗
