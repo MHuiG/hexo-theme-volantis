@@ -104,6 +104,7 @@
       <% } %>
     <% } %>
   </script>
+  <%- js({src:'https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js',aysc:true}) %>
 
 
   <% if (config.favicon) { %>
@@ -122,7 +123,7 @@
     <%- css('css/style.css') %>
   <% } %>
 
-  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+  <script aysc src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
 
   <% if (config.google_analytics_key) { %>
     <!-- Global site tag (gtag.js) - Google Analytics -->
