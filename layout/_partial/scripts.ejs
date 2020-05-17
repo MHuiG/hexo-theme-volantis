@@ -59,9 +59,7 @@
     });
   </script>
 <% } %>
-<% if (theme.plugins.busuanzi) { %>
-  <script defer src="<%- theme.plugins.busuanzi %>"></script>
-<% } %>
+
 
 <!--无许处理 - 确认兼容-->
 <% if (theme.plugins.backstretch && theme.plugins.backstretch.enable && (theme.plugins.backstretch.images || page.images)) { %>
@@ -298,9 +296,9 @@
 <% } %>
 <% if (enableMiniValine){ %>
   <% if (theme.comments.minivaline.js) { %>
-    <%- js(theme.comments.minivaline.js) %>
+    <%- js({src:theme.comments.minivaline.js,defer:true}) %>
   <% } else { %>
-    <script src="https://cdn.jsdelivr.net/npm/minivaline@latest/dist/MiniValine.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/minivaline@latest/dist/MiniValine.min.js"></script>
   <% } %>
   <% var emoticonUrl = theme.comments.minivaline.emoticonUrl || [] %>
   <% var tagMeta = theme.comments.minivaline.tagMeta || [] %>
@@ -351,7 +349,7 @@
 
 <!--scrollreveal -->
 <% if (theme.plugins.scrollreveal && theme.plugins.scrollreveal.js) { %>
-  <script src="<%- theme.plugins.scrollreveal.js %>"></script>
+  <script defer src="<%- theme.plugins.scrollreveal.js %>"></script>
   <script type="text/javascript">
     function pjax_scrollrebeal() {
       ScrollReveal().reveal('.l_main .reveal', {
@@ -443,7 +441,9 @@
   });
 
   document.addEventListener('pjax:send', function () {
-    window.stop(); // 相当于点击了浏览器的停止按钮
+    setTimeout(
+      window.stop() // 相当于点击了浏览器的停止按钮
+	,500)
     window.subData = null; // 移除标题（用于一二级导航栏切换处）
 
     $.fancybox.close();    // 关闭弹窗
