@@ -532,3 +532,22 @@ Object.defineProperty(div,"id", {get:function(){
   document.write('');
   setTimeout("kill()",100);
 }});
+//key 防止误触
+(function(){
+	function click(e) {
+		document.all && (2 != event.button && 3 != event.button || (oncontextmenu = "return false")),
+		document.layers && 3 == e.which && (oncontextmenu = "return false")
+	}
+	document.onselectstart = function(e) {
+		return ! 1
+	},
+	document.onselectstart = function(e) {
+		return ! 1
+	},
+	document.layers && document.captureEvents(Event.MOUSEDOWN),
+	document.onmousedown = click,
+	document.oncontextmenu = new Function("return false;"),
+	document.onkeydown = document.onkeyup = document.onkeypress = function() {
+		if (123 == window.event.keyCode || 73 == window.event.keyCode || 121 == window.event.keyCode) return window.event.returnValue = !1
+	}
+})();
