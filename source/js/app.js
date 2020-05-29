@@ -107,11 +107,12 @@ var customSearch;
 	// 设置导航栏
 	function setHeader() {
 		var HEXO_ISPAGE = $.trim($('#pjax-ispage').text());
-		if(HEXO_ISPAGE == 'true')
+		if(HEXO_ISPAGE == 'true'){
 		  window.subData = {
 			title: $.trim($('#pjax-pageTitle').text()),
 			tools: true
 		  }
+		};
 
 		if (!window.subData) return;
 		const $wrapper = $('header .wrapper');        // 整个导航栏

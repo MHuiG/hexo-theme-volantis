@@ -131,7 +131,7 @@ var SearchService = "";
         relUrl = relUrl.split("?")[0];
       }
       return relUrl;
-    }
+    };
 
     /**
      * Generate html for one result
