@@ -343,6 +343,28 @@
 <% } %>
 
 
+<!--darkmodejs -->
+<% if (config.darkmode) { %>
+  <script aysc src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5/lib/darkmode-js.min.js"></script>
+  <script type="text/javascript">
+	var options = {
+	  bottom: '64px', // default: '32px'
+	  right: 'unset', // default: '32px'
+	  left: '32px', // default: 'unset'
+	  time: '0.5s', // default: '0.3s'
+	  mixColor: 'skyblue', // default: '#fff'
+	  backgroundColor: 'skyblue',  // default: '#fff'
+	  buttonColorDark: '#100f2c',  // default: '#100f2c'
+	  buttonColorLight: 'skyblue', // default: '#fff'
+	  saveInCookies: false, // default: true,
+	  label: '🌓', // default: ''
+	  autoMatchOsTheme: true // default: true
+	}
+	const darkmode = new Darkmode(options);
+	darkmode.showWidget();
+  </script>
+<% } %>
+
 <!-- 复制 -->
 <% if (theme.plugins.clipboard && (theme.style.body.highlight.copy_btn == true)) { %>
   <%- partial('_third-party/clipboard') %>
