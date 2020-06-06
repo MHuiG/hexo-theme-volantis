@@ -347,21 +347,37 @@
 <% if (config.darkmode) { %>
   <script aysc src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5/lib/darkmode-js.min.js"></script>
   <script type="text/javascript">
-	var options = {
-	  bottom: '64px', // default: '32px'
-	  right: 'unset', // default: '32px'
-	  left: '32px', // default: 'unset'
-	  time: '0.5s', // default: '0.3s'
-	  mixColor: 'skyblue', // default: '#fff'
-	  backgroundColor: 'skyblue',  // default: '#fff'
-	  buttonColorDark: '#100f2c',  // default: '#100f2c'
-	  buttonColorLight: 'skyblue', // default: '#fff'
-	  saveInCookies: false, // default: true,
-	  label: '🌓', // default: ''
-	  autoMatchOsTheme: true // default: true
+	function IsPC() {
+		var userAgentInfo = navigator.userAgent;
+		var Agents = ["Android", "iPhone",
+					"SymbianOS", "Windows Phone",
+					"iPad", "iPod"];
+		var flag = true;
+		for (var v = 0; v < Agents.length; v++) {
+			if (userAgentInfo.indexOf(Agents[v]) > 0) {
+				flag = false;
+				break;
+			}
+		}
+		return flag;
+	};
+	if(IsPC()){
+		var options = {
+		  bottom: '64px', // default: '32px'
+		  right: 'unset', // default: '32px'
+		  left: '32px', // default: 'unset'
+		  time: '0.5s', // default: '0.3s'
+		  mixColor: 'skyblue', // default: '#fff'
+		  backgroundColor: 'skyblue',  // default: '#fff'
+		  buttonColorDark: '#100f2c',  // default: '#100f2c'
+		  buttonColorLight: 'skyblue', // default: '#fff'
+		  saveInCookies: false, // default: true,
+		  label: '🌓', // default: ''
+		  autoMatchOsTheme: true // default: true
+		};
+		const darkmode = new Darkmode(options);
+		darkmode.showWidget();
 	}
-	const darkmode = new Darkmode(options);
-	darkmode.showWidget();
   </script>
 <% } %>
 
