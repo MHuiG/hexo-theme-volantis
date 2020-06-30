@@ -443,12 +443,12 @@ function LogoChange(){
 	}
 }
 setInterval("LogoChange()",1000);
-/*Valine Admin*/
+/*锚点定位*/
 if(window.location.hash){
 	var checkExist = setInterval(function() {
 	   if (typeof jQuery == 'undefined'){return;}
-	   if ($("#"+window.location.hash.split("#")[1]).length) {
-		  $('html, body').animate({scrollTop: $("#"+window.location.hash.split("#")[1]).offset().top-90}, 1000);
+	   if ($("#"+decodeURI(window.location.hash.split("#")[1])).length) {
+		  $('html, body').animate({scrollTop: $("#"+decodeURI(window.location.hash.split("#")[1])).offset().top-90}, 1000);
 		  clearInterval(checkExist);
 	   }
 	}, 100);
