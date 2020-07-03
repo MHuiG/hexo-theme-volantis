@@ -629,5 +629,5 @@ info:
   version: '3.0-beta' # This is theme's version.
   docs: https://volantis.js.org/ # This is theme's URL.
   cdn:
-    js: 
+    js:
     css:
