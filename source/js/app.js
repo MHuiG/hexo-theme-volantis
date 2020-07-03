@@ -409,6 +409,17 @@ var customSearch;
 
 })(jQuery);
 
+/*锚点定位*/
+if(window.location.hash){
+	var checkExist = setInterval(function() {
+	   if (typeof jQuery == 'undefined'){return;}
+	   if ($("#"+decodeURI(window.location.hash.split("#")[1]).replace(/\ /g,"-")).length) {
+		  $('html, body').animate({scrollTop: $("#"+decodeURI(window.location.hash.split("#")[1]).replace(/\ /g,"-")).offset().top-10}, 500);
+		  clearInterval(checkExist);
+	   }
+	}, 100);
+}
+
 /*code-block-fullscreen*/
 $("figcaption").click(function () {
 	if (window.CodeBlockFullscreen) {
@@ -444,16 +455,6 @@ function LogoChange(){
 	}
 }
 setInterval("LogoChange()",1000);
-/*锚点定位*/
-if(window.location.hash){
-	var checkExist = setInterval(function() {
-	   if (typeof jQuery == 'undefined'){return;}
-	   if ($("#"+decodeURI(window.location.hash.split("#")[1]).replace(/\ /g,"-")).length) {
-		  $('html, body').animate({scrollTop: $("#"+decodeURI(window.location.hash.split("#")[1]).replace(/\ /g,"-")).offset().top-10}, 500);
-		  clearInterval(checkExist);
-	   }
-	}, 100);
-}
 /*Hidden*/
 var OriginTitle = document.title;
 var titleTime;
