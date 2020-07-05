@@ -372,6 +372,7 @@
 		emoticonUrl: <%- '["' + emoticonUrl.join('", "') + '"]' %>,
 		serverURLs: '<%= theme.comments.minivaline.serverURLs %>',
 		vc: '<%= theme.comments.minivaline.vc %>',
+        region: '<%= theme.comments.minivaline.region %>',
 	  });
 	}
     $(function () {
@@ -416,7 +417,7 @@
 		  backgroundColor: 'skyblue',  // default: '#fff'
 		  buttonColorDark: '#100f2c',  // default: '#100f2c'
 		  buttonColorLight: 'skyblue', // default: '#fff'
-		  saveInCookies: false, // default: true,
+		  saveInCookies: true, // default: true,
 		  label: '🌓', // default: ''
 		  autoMatchOsTheme: true // default: true
 		};
@@ -426,6 +427,24 @@
 		const darkmode = new Darkmode(options);
 		darkmode.showWidget();
 	}
+	function pjax_darkmodejs(){
+		var checkExist2 = setInterval(function() {
+		   if (typeof jQuery == 'undefined'){return;}
+		   clearInterval(checkExist2);
+		   var TopFlag=document.documentElement.scrollHeight+500;
+			$(window).scroll(function(){
+				var top = $(document).scrollTop();
+				if(top > TopFlag) {
+					$(".darkmode-layer").css("mix-blend-mode","normal");
+					$(".darkmode-layer").css("background-color","#21232F");
+				}else{
+					$(".darkmode-layer").css("mix-blend-mode","difference");
+					$(".darkmode-layer").css("background-color","");
+				}
+			})
+		}, 100);
+	}
+	pjax_darkmodejs();
   </script>
 <% } %>
 
