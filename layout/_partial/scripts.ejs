@@ -386,48 +386,40 @@
 <% if (config.darkmode) { %>
   <script aysc src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5/lib/darkmode-js.min.js"></script>
   <script type="text/javascript">
-	function IsPC() {
-		var userAgentInfo = navigator.userAgent;
-		var Agents = ["Android", "iPhone",
-					"SymbianOS", "Windows Phone",
-					"iPad", "iPod"];
-		var flag = true;
-		for (var v = 0; v < Agents.length; v++) {
-			if (userAgentInfo.indexOf(Agents[v]) > 0) {
-				flag = false;
-				break;
-			}
-		}
-		return flag;
+	function supportCss3(style) {  
+		var prefix = ['webkit', 'Moz', 'ms', 'o'],  
+		i,  
+		humpString = [],  
+		htmlStyle = document.documentElement.style,  
+		_toHumb = function (string) {  
+		return string.replace(/-(\w)/g, function ($0, $1) {  
+		return $1.toUpperCase();  
+		});  
+		};  
+		for (i in prefix)  
+		humpString.push(_toHumb(prefix[i] + '-' + style));  
+		humpString.push(_toHumb(style));  
+		for (i in humpString)  
+		if (humpString[i] in htmlStyle) return true;  
+		return false;  
 	};
-	function IsEDGE() {
-		if (navigator.userAgent.indexOf("Edg") > -1) {
-			return true;
-		}else{
-			return false;
-		}
+	//配置信息
+	var options = {
+	  bottom: '64px', // default: '32px'
+	  right: 'unset', // default: '32px'
+	  left: '32px', // default: 'unset'
+	  time: '0.5s', // default: '0.3s'
+	  mixColor: 'skyblue', // default: '#fff'
+	  backgroundColor: 'skyblue',  // default: '#fff'
+	  buttonColorDark: '#100f2c',  // default: '#100f2c'
+	  buttonColorLight: 'skyblue', // default: '#fff'
+	  saveInCookies: true, // default: true,
+	  label: '🌓', // default: ''
+	  autoMatchOsTheme: true // default: true
 	};
-	if(IsPC()){
-		var options = {
-		  bottom: '64px', // default: '32px'
-		  right: 'unset', // default: '32px'
-		  left: '32px', // default: 'unset'
-		  time: '0.5s', // default: '0.3s'
-		  mixColor: 'skyblue', // default: '#fff'
-		  backgroundColor: 'skyblue',  // default: '#fff'
-		  buttonColorDark: '#100f2c',  // default: '#100f2c'
-		  buttonColorLight: 'skyblue', // default: '#fff'
-		  saveInCookies: true, // default: true,
-		  label: '🌓', // default: ''
-		  autoMatchOsTheme: true // default: true
-		};
-		if(IsEDGE()){
-			options.mixColor="black";
-		}
-		const darkmode = new Darkmode(options);
-		darkmode.showWidget();
-	}
+	// 卡片兼容处理
 	function pjax_darkmodejs(){
+		if(!supportCss3('mix-blend-mode'))return;
 		var checkExist2 = setInterval(function() {
 		   if (typeof jQuery == 'undefined'){return;}
 		   clearInterval(checkExist2);
@@ -444,7 +436,12 @@
 			})
 		}, 100);
 	}
-	pjax_darkmodejs();
+	// mix-blend-mode support?
+	if(supportCss3('mix-blend-mode')){
+		const darkmode = new Darkmode(options);
+		darkmode.showWidget();
+		pjax_darkmodejs();
+	}
   </script>
 <% } %>
 
