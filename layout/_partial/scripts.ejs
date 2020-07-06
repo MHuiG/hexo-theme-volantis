@@ -390,6 +390,20 @@ window.addEventListener('load', () =>{
 <% if (config.darkmode) { %>
   <script aysc src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5/lib/darkmode-js.min.js"></script>
   <script type="text/javascript">
+	function IsPC() {
+		var userAgentInfo = navigator.userAgent;
+		var Agents = ["Android", "iPhone",
+					"SymbianOS", "Windows Phone",
+					"iPad", "iPod"];
+		var flag = true;
+		for (var v = 0; v < Agents.length; v++) {
+			if (userAgentInfo.indexOf(Agents[v]) > 0) {
+				flag = false;
+				break;
+			}
+		}
+		return flag;
+	}
 	function supportCss3(style) {  
 		var prefix = ['webkit', 'Moz', 'ms', 'o'],  
 		i,  
@@ -409,7 +423,7 @@ window.addEventListener('load', () =>{
 	};
 	//配置信息
 	var options = {
-	  bottom: '64px', // default: '32px'
+	  bottom: '32px', // default: '32px'
 	  right: 'unset', // default: '32px'
 	  left: '32px', // default: 'unset'
 	  time: '0.25s', // default: '0.3s'
@@ -424,6 +438,7 @@ window.addEventListener('load', () =>{
 	// 卡片兼容处理
 	function pjax_darkmodejs(){
 		if(!supportCss3('mix-blend-mode'))return;
+		if(!IsPC())return;
 		var checkExist2 = setInterval(function() {
 		   if (typeof jQuery == 'undefined'){return;}
 		   clearInterval(checkExist2);
@@ -441,7 +456,7 @@ window.addEventListener('load', () =>{
 		}, 100);
 	}
 	// mix-blend-mode support?
-	if(supportCss3('mix-blend-mode')){
+	if(supportCss3('mix-blend-mode')&&IsPC()){
 		const darkmode = new Darkmode(options);
 		darkmode.showWidget();
 		pjax_darkmodejs();
