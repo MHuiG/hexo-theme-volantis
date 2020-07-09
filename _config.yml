@@ -515,7 +515,7 @@ plugins:
 comments:
   title: <i class='fas fa-comments'></i> 评论
   subtitle:
-  service: valine # valine, minivaline, disqus, gitalk, vssue, livere
+  service: valine # valine, minivaline, disqus, gitalk, vssue, livere, isso
   # Valine
   # https://valine.js.org/
   valine:
@@ -598,6 +598,11 @@ comments:
   # https://www.livere.com
   livere:
     uid:
+  # Isso
+  # https://posativ.org/isso/
+  isso:
+    url: https://example.com/(path/)
+    src: https://example.com/(path/)js/embed.min.js
 
 
 
@@ -628,7 +633,7 @@ search:
 ############################### Theme Information ###############################
 info:
   name: Volantis # This is theme's name.
-  version: '3.0-beta' # This is theme's version.
+  version: '3.0-beta1' # This is theme's version.
   docs: https://volantis.js.org/ # This is theme's URL.
   cdn:
     js:
