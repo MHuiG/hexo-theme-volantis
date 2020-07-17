@@ -34,8 +34,8 @@ style:
     h2: 48px # Spacing above H2 (only px unit)
     h3: 24px # Spacing above H3 (only px unit)
     h4: 16px # Spacing above H4 (only px unit)
-    paragraph: 1rem # Paragraph spacing between paragraphs
-    row: .5rem # Paragraph spacing between other elements
+    paragraph: .6rem # Paragraph spacing between paragraphs
+    row: .4rem # Paragraph spacing between other elements
     line_height: 1.65 # normal, 1.5, 1.75, 2 ...
   border_radius:
     card: 8px
@@ -50,8 +50,8 @@ style:
     h4: 1.125rem
     h5: 1rem
     h6: 1rem
-    body: 1rem
-    list: .9375rem
+    body: .9375rem
+    list: 95%
     meta: .875rem
     code: .8125rem
     footnote: .75rem
@@ -116,7 +116,7 @@ cover:
       url: https://volantis.js.org/examples/
     - name: 源码
       icon: fas fa-file-code
-      url: https://github.com/theme-volantis/hexo-theme-volantis/
+      url: https://github.com/volantis-x/hexo-theme-volantis/
       rel: external nofollow noopener noreferrer
       target: _blank
     - name: 鸣谢
@@ -129,7 +129,7 @@ navbar:
   logo: # choose [img] or [icon + title]
     img:
     icon:
-    title:
+    title: Volantis
   menu:
     # The following can be written in `blog/source/_data/menu.yml`
     - name: 博客
@@ -515,7 +515,7 @@ plugins:
 comments:
   title: <i class='fas fa-comments'></i> 评论
   subtitle:
-  service: valine # valine, minivaline, disqus, gitalk, vssue, livere, isso
+  service: valine # valine, minivaline, disqus, gitalk, vssue, livere, isso, hashover
   # Valine
   # https://valine.js.org/
   valine:
@@ -603,7 +603,10 @@ comments:
   isso:
     url: https://example.com/(path/)
     src: https://example.com/(path/)js/embed.min.js
-
+  # HashOver
+  # https://www.barkdull.org/software/hashover
+  hashover:
+    src: https://example.com/(path/)comments.php
 
 
 
@@ -635,6 +638,7 @@ info:
   name: Volantis # This is theme's name.
   version: '3.0-beta1' # This is theme's version.
   docs: https://volantis.js.org/ # This is theme's URL.
+  repo: https://github.com/volantis-x/hexo-theme-volantis
   cdn:
     js:
     css:
