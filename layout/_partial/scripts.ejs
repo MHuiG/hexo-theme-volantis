@@ -158,8 +158,8 @@ window.addEventListener('load', () =>{
 <% } %>
 
 <!-- darkmodejs -->
-<% if (config.darkmode) { %>
-  <script aysc src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5/lib/darkmode-js.min.js"></script>
+<% if (theme.plugins.darkmodejs.enable) { %>
+  <%- js({src: theme.plugins.darkmodejs.js,aysc:true}) %>
   <script type="text/javascript">
 	function getClientHeight(){
 	  var clientHeight=0;
@@ -189,17 +189,17 @@ window.addEventListener('load', () =>{
 	};
 	//配置信息
 	var options = {
-	  bottom: '8px', // default: '32px'
-	  right: 'unset', // default: '32px'
-	  left: '8px', // default: 'unset'
-	  time: '0.25s', // default: '0.3s'
-	  mixColor: 'skyblue', // default: '#fff'
-	  backgroundColor: 'skyblue',  // default: '#fff'
-	  buttonColorDark: '#100f2c',  // default: '#100f2c'
-	  buttonColorLight: 'skyblue', // default: '#fff'
-	  saveInCookies: true, // default: true,
-	  label: '🌓', // default: ''
-	  autoMatchOsTheme: true // default: true
+	  bottom: '<%- theme.plugins.darkmodejs.bottom %>',
+	  right: '<%- theme.plugins.darkmodejs.right %>',
+	  left: '<%- theme.plugins.darkmodejs.left %>',
+	  time: '<%- theme.plugins.darkmodejs.time %>',
+	  mixColor: '<%- theme.plugins.darkmodejs.mixColor %>',
+	  backgroundColor: '<%- theme.plugins.darkmodejs.backgroundColor %>',
+	  buttonColorDark: '<%- theme.plugins.darkmodejs.buttonColorDark %>',
+	  buttonColorLight: '<%- theme.plugins.darkmodejs.buttonColorLight %>',
+	  saveInCookies: <%- theme.plugins.darkmodejs.saveInCookies %>,
+	  label: '<%- theme.plugins.darkmodejs.label %>',
+	  autoMatchOsTheme: <%- theme.plugins.darkmodejs.autoMatchOsTheme %>
 	};
 	// 卡片兼容处理
 	function pjax_darkmodejs(){
