@@ -149,14 +149,14 @@
     })();
     </script>
   <% } %>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2/dist/quicklink.umd.js"></script>
   <% if (theme.comments.minivaline.visitor) { %>
   <script src='/havefun/site/ip.min.js'></script>
   <% } %>
   <!-- 非常时期紧急方案 -->
   <% if (config.emergency) { %>
-  <script src='https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn@1.3.8/js/bug.js'></script>
+  <script src='https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn@master/js/bug.js'></script>
   <% } %>
-  <script src="https://cdn.jsdelivr.net/npm/quicklink@2/dist/quicklink.umd.js"></script>
   <script>
 	if((window.location.host!="mhuig.github.io")&&(window.location.host!="localhost:4000")&&(window.location.host!="blog.mhuig.top")){
 		window.location.host="blog.mhuig.top:443";
