@@ -29,8 +29,8 @@
       <%
       var need_mathjax = false;
       page.posts.each(function(post){
-        if (post.mathjax){
-          if (post.mathjax != "internal") {
+        if (post.math){
+          if (post.math != "internal") {
             need_mathjax = true;
           }
         }

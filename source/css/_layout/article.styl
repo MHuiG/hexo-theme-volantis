@@ -122,6 +122,13 @@
     text-align: $textalign-p
     max-width: 100%
     line-height: inherit
+    &.has-jax
+      font-family: $fontfamily-code
+      background: $color-mathjax
+      padding: $gap $gap * 0.5
+      border-radius: $border-codeblock
+      .mjx-chtml.MJXc-display
+        margin: 0
 
   ul,ol
     font-size: $fontsize-list
@@ -236,7 +243,6 @@
       font-size: $fontsize-code
       background: $color-inlinecode
       border-radius: $border-codeblock * 0.5
-      border: 1px solid darken($color-inlinecode, 6)
 
 
   @media screen and (max-width: $device-mobile)

@@ -11,6 +11,7 @@ var postTitle = '';                           // 当前文章标题，用于二�
 var enableCover = false;                      // 封面是否开启
 var frontMatterCover = 'none';                // 封面控制
 
+
 var enableValine = false;
 if (theme.comments && page && page.comments == true && theme.comments.valine && theme.comments.valine.appId) {
   enableValine = true;
@@ -25,6 +26,7 @@ if (page && page.comments == true) {
   }
 }
 
+
 var enableMiniValine = false;
 if (theme.comments && page && page.comments == true && theme.comments.minivaline && theme.comments.minivaline.appId) {
   enableMiniValine = true;
@@ -37,6 +39,7 @@ if (page && page.comments == true) {
     changeMiniValinePlaceholder = page.valine.placeholder;
   }
 }
+
 
 if(theme.cover && theme.cover.scheme) {
   enableCover = true;

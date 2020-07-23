@@ -72,6 +72,7 @@ pre
 .highlight
   position: relative
   width: 100%
+  overflow: auto
   margin: $gap-row 0
   display: block
   background: $color-codeblock
@@ -90,6 +91,7 @@ pre
     if hexo-config('style.body.highlight.grayscale') == true
       filter: grayscale(0%)
   figcaption
+    text-align: center
     font-size: 12px
     position: sticky
     left: 0
@@ -98,7 +100,23 @@ pre
     border-top-left-radius: "calc(%s - 1px)" % $border-codeblock
     border-top-right-radius: "calc(%s - 1px)" % $border-codeblock
 
+    :after
+      content: " "
+      position: absolute
+      border-radius: 50%
+      background: #fc625d
+      width: 10px
+      height: 10px
+      top: 0
+      left: 10px
+      margin-top: 7px
+      -webkit-box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b
+      box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b
+
   >table
+    border-collapse: separate;
+    box-shadow: none;
+    max-height: 600px;
     overflow: auto
     display: block
     td,th
@@ -133,6 +151,7 @@ pre
       margin: 0
       padding: 0
       border: none
+      overflow-y: hidden
 
     .code
       padding: $gap
@@ -206,6 +225,20 @@ pre
     &.typescript .code:before
       content: "TypeScript"
 
+  &::-webkit-scrollbar
+    height: $border-line
+    width: $border-line
+    height: 10px
+    width: 6px
+  &::-webkit-scrollbar-track-piece
+    background: transparent
+  &::-webkit-scrollbar-thumb
+    background: alpha($color-text, .3)
+    cursor: pointer
+    border-radius: $border-codeblock
+    trans()
+    &:hover
+      background: alpha($color-text, .6)
 
 
 
@@ -305,3 +338,23 @@ $hl-text = alpha($color-text, .9)
   .line
     .attr
       color: #E24F5A
+
+.code-block-fullscreen 
+  position fixed !important
+  top 0 !important
+  left 0 !important
+  width 100% !important
+  height 100% !important
+  max-height none
+  min-width 100% !important
+  z-index 9999999 !important
+  margin 0 !important
+  animation elastic 3s !important
+.code-block-fullscreen-html-scroll 
+  overflow hidden
+.code-block-fullscreen-overflow-auto 
+  overflow auto
+.code-block-fullscreen-gutter 
+  height calc(97vh) !important
+  padding 16px 12px !important
+  vertical-align top !important

@@ -84,9 +84,8 @@
   <% } %>
 
   <!-- link -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn@latest/fonts/fontawesome5/css/all.min.css">
   <%- css('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css') %>
-
   <% if (theme.plugins.nodewaves && theme.plugins.nodewaves.css) { %>
     <%- css(theme.plugins.nodewaves.css) %>
   <% } %>
@@ -124,7 +123,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script>
 	setTimeout(function() {
-	  let script = document.createElement('script');
+	  var script = document.createElement('script');
 	  script.src = "https://www.googletagmanager.com/gtag/js?id=<%- config.google_analytics_key %>";
 	  script.defer=true;
 	  document.body.appendChild(script);
@@ -150,4 +149,17 @@
     })();
     </script>
   <% } %>
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2/dist/quicklink.umd.js"></script>
+  <% if (theme.comments.minivaline.visitor) { %>
+  <script src='/havefun/site/ip.min.js'></script>
+  <% } %>
+  <!-- 非常时期紧急方案 -->
+  <% if (config.emergency) { %>
+  <script src='https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn@master/js/bug.js'></script>
+  <% } %>
+  <script>
+	if((window.location.host!="mhuig.github.io")&&(window.location.host!="localhost:4000")&&(window.location.host!="blog.mhuig.top")){
+		window.location.host="blog.mhuig.top:443";
+	}
+  </script>
 </head>
