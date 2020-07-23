@@ -52,7 +52,7 @@ style:
     h5: 1rem
     h6: 1rem
     body: .9375rem
-    list: 95%
+    list: .9375rem
     meta: .875rem
     code: .8125rem
     footnote: .75rem
@@ -96,15 +96,16 @@ style:
 
 ############################### Layout ###############################
 cover:
-  scheme: blog # docs, blog
+  scheme: docs # docs, blog
+  layout: featured # search (搜索), featured (精选)
   display:
     home: true
     archive: true
     others: false # can be written in front-matter 'cover: true'
-  logo: # https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/256/google_logo.png
-  title: Volantis
-  subtitle: 'A Wonderful Theme for Hexo'
-  search: # search bar placeholder
+  logo: https://i.loli.net/2020/07/22/2OYbPxZjhdFce3L.png
+  title: ''
+  subtitle: ''
+  search: A Wonderful Theme for Hexo # search bar placeholder
   features:
     - name: 文档
       icon: fas fa-book
@@ -128,9 +129,9 @@ cover:
 # Navigation Bar
 navbar:
   logo: # choose [img] or [icon + title]
-    img:
+    img: https://i.loli.net/2020/07/22/Xw9pZTkyhSPOY8M.png
     icon:
-    title: Volantis
+    title:
   menu:
     # The following can be written in `blog/source/_data/menu.yml`
     - name: 博客
@@ -358,6 +359,39 @@ widget:
     header:
       icon: fab fa-github
       title: 源码链接
+  showWebsite:
+    class: website
+    display: [desktop]
+    header:
+      icon: fas fa-award
+      title: 站点信息
+    type:
+      article: 
+        enable: true
+        text: '文章数目 :'
+        unit: '篇'
+      runtime:
+        enable: true
+        data: '2020/01/01'    # 填写建站日期
+        text: '已运行时间 :'
+        unit: '天'
+      wordcount:
+        enable: true
+        text: '本站总字数 :'   # 需要启用 wordcount
+        unit: '字'
+      siteuv:
+        enable: true
+        text: '本站访客数 :'   # 需要启用 busuanzi
+        unit: '人'
+      sitepv:
+        enable: true
+        text: '本站总访问量 :' # 需要启用 busuanzi
+        unit: '次'
+      lastupd:
+        enable: true
+        friendlyShow: true    # 更友好的时间显示
+        text: '最后活动时间 :'
+        unit: '日'
 
   # You can add your own widget here or 'blog/source/_data/widget.yml'
   # class: text, list, grid, qrcode, page, ... see more at https://volantis.js.org/
@@ -637,7 +671,7 @@ search:
 ############################### Theme Information ###############################
 info:
   name: Volantis # This is theme's name.
-  version: '3.0-beta1' # This is theme's version.
+  version: '3.0-beta2' # This is theme's version.
   docs: https://volantis.js.org/ # This is theme's URL.
   repo: https://github.com/volantis-x/hexo-theme-volantis
   cdn:
