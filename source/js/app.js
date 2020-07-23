@@ -109,11 +109,12 @@ var customSearch;
 	// 设置导航栏
 	function setHeader() {
 		var HEXO_ISPAGE = $.trim($('#pjax-ispage').text());
-		if(HEXO_ISPAGE == 'true')
+		if(HEXO_ISPAGE == 'true'){
 		  window.subData = {
 			title: $.trim($('#pjax-pageTitle').text()),
 			tools: true
 		  }
+		};
 
 		if (!window.subData) return;
 		const $wrapper = $('header .wrapper');        // 整个导航栏
@@ -315,7 +316,6 @@ var customSearch;
 				scrollListener();
 			} , 100);
 		});
-
 		scrollListener();
 	}
 
@@ -431,3 +431,67 @@ if(window.location.hash){
 	   }
 	}, 100);
 }
+
+/*code-block-fullscreen*/
+$("figcaption").click(function () {
+	if (window.CodeBlockFullscreen) {
+		$("#post").removeClass("code-block-fullscreen");
+		$(this).parent().removeClass("code-block-fullscreen");
+		$(this).parent().removeClass("code-block-fullscreen-overflow-auto");
+		$("html").removeClass("code-block-fullscreen-html-scroll");
+		$(".highlight>table .gutter").removeClass("code-block-fullscreen-gutter");
+		window.CodeBlockFullscreen = false
+	} else {
+		$("#post").addClass("code-block-fullscreen");
+		$(this).parent().addClass("code-block-fullscreen");
+		$(this).parent().addClass("code-block-fullscreen-overflow-auto");
+		$("html").addClass("code-block-fullscreen-html-scroll");
+		$(".highlight>table .gutter").addClass("code-block-fullscreen-gutter");
+		window.CodeBlockFullscreen = true
+	}
+});
+/*SupportWebp*/
+function isSupportWebp() {
+  try {
+    return document.createElement('canvas').toDataURL('image/webp', 0.5).indexOf('data:image/webp') === 0;
+  } catch(err) {
+    return false;
+  }
+}
+function LogoChange(){
+	if (typeof jQuery != 'undefined') {
+		if(!isSupportWebp()){
+			$("section.widget.blogger> div > a > img").attr("src","https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn/assets/avatar/avatar-240.png");
+			$("#header-meta > div > div.new-meta-item.author > a > img").attr("src","https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn/assets/avatar/avatar-16.png");
+		}
+	}
+}
+setInterval("LogoChange()",1000);
+/*Hidden*/
+var OriginTitle = document.title;
+var titleTime;
+document.addEventListener('visibilitychange', function () {
+ if (document.hidden) {
+	 $('[rel="shortcut icon"]').attr('href', "https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn@master/assets/favicon/Error.ico");
+	 document.title = '╭(°A°`)╮ 页面崩溃啦 ~';
+	 clearTimeout(titleTime);
+ }
+ else {
+	 $('[rel="shortcut icon"]').attr('href', "https://cdn.jsdelivr.net/gh/MHuiG/blog-cdn@master/assets/favicon/favicon.ico");
+	 document.title = '(ฅ>ω<*ฅ) 噫又好了~' + OriginTitle;
+	 titleTime = setTimeout(function () {
+		 document.title = OriginTitle;
+	 }, 2000);
+ }
+});
+/*badu push*/
+setTimeout(function() {
+(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+  bp.defer=true;
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();
+}, 5000);

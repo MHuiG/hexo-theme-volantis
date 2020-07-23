@@ -1,4 +1,4 @@
-<% if (theme.comments.valine && theme.comments.valine.appId){ %>
+<% if ((theme.comments.valine && theme.comments.valine.appId)||(theme.comments.minivaline && theme.comments.minivaline.appId)){ %>
 <div class="new-meta-item comments-count">
   <%
     var path = post.path || page.path;

@@ -35,7 +35,9 @@ new MiniValine({
   maxNest: <%= theme.comments.minivaline.maxNest %>,
   pageSize: <%= theme.comments.minivaline.pageSize %>,
   emoticonUrl: <%- '["' + emoticonUrl.join('", "') + '"]' %>,
-  serverURLs: '<%= theme.comments.minivaline.serverURLs %>'
+  serverURLs: '<%= theme.comments.minivaline.serverURLs %>',
+  vc: '<%= theme.comments.minivaline.vc %>',
+  region: '<%= theme.comments.minivaline.region %>',
   });
 }
   $(function () {
