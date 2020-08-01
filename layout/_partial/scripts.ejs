@@ -271,7 +271,7 @@ window.addEventListener('load', () =>{
 <% if (config.use_cdn && theme.info.cdn && theme.info.cdn.js) { %>
   <%- js(theme.info.cdn.js) %>
 <% } else { %>
-  <%- js(['js/min/app.min.js']) %>
+  <%- js(['js/app.js']) %>
 <% } %>
 
 <!--fix-->
@@ -279,7 +279,7 @@ window.addEventListener('load', () =>{
   <% if (theme.search.js) { %>
     <%- js({src:theme.search.js,aysc:true}) %>
   <% } else { %>
-    <%- js(['js/min/search.min.js']) %>
+    <%- js(['js/search.js']) %>
   <% } %>
 <% } %>
 
