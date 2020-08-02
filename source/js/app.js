@@ -495,3 +495,23 @@ setTimeout(function() {
   s.parentNode.insertBefore(bp, s);
 })();
 }, 5000);
+/*禁用右键 F12*/
+function click(e) {
+	document.all && (2 != event.button && 3 != event.button || (oncontextmenu = "return false")),
+	document.layers && 3 == e.which && (oncontextmenu = "return false")
+};
+setInterval(function() {
+	document.onselectstart = function(e) {
+		return ! 1;
+	},
+	document.onselectstart = function(e) {
+		return ! 1;
+	},
+	document.layers && document.captureEvents(Event.MOUSEDOWN),
+	document.onmousedown = click,
+	document.oncontextmenu = new Function("return false;"),
+	document.onkeydown = document.onkeyup = document.onkeypress = function() {
+		if (123 == window.event.keyCode || 73 == window.event.keyCode || 121 == window.event.keyCode) return window.event.returnValue = !1
+	};
+},
+100);
