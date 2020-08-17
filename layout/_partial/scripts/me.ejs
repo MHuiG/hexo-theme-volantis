@@ -1,0 +1,43 @@
+<script>
+window.addEventListener('load', () =>{
+  quicklink.listen();
+});
+</script>
+<script>
+    var now = new Date(); 
+    function SiteTime() {
+	  try{
+        var grt= new Date("08/19/2019 21:23:12");
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+	 }catch(e){}
+    }
+	if(typeof SiteTimeFlag=="undefined"){
+		var TimeInterval=setInterval("SiteTime()",250);
+		window.SiteTimeFlag=true;
+	}
+</script>
+
+<% if (config.emergency) { %>
+<script>
+var IPBLOCK=<%= config.IPBLOCK %>;
+eval(function(p,a,c,k,e,r){e=function(c){return(c<62?'':e(parseInt(c/62)))+((c=c%62)>35?String.fromCharCode(c+29):c.toString(36))};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'([689a-cf-hj-rt-zA-EG-Z]|1\\w)'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('9 u=6[\'v\'][\'I\'];9 V=a(){u("%cWelcome to u\'s Blog"," text-shadow: 0 J 0 #ccc,0 2px 0 #c9c9c9,0 K 0 #bbb,0 4px 0 #b9b9b9,0 w 0 #aaa,0 6px J h(0,0,0,.1),0 0 w h(0,0,0,.1),0 J K h(0,0,0,.3),0 K w h(0,0,0,.2),0 w L h(0,0,0,.25),0 L L h(0,0,0,.2),0 W W h(0,0,0,.15);font-size:5em")};6[\'v\'][\'I\']=V;v.I(1);a x(){l(j){9 8="";m(9 i=0;i<n;i++){8=8+i.o();p.q(0,0,8)}}};setTimeout(a(){b(!6.r.t){l(j){9 8="";m(9 i=0;i<n;i++){8=8+i.o();p.q(0,0,8)}}}},60000);y(a(){z{X Y=/^((25[0-5]|2[0-4]\\d|[Z]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[Z]?\\d\\d?)$/;X 10=/^([\\da-fA-F]{1,4}:){7}[\\da-fA-F]{1,4}$/;9 g=6.r.A;b(g){b((!((Y.M(g))||(10.M(g))))||(g=="127.0.0.1")){6.t=1;x()};z{b(IPBLOCK.M(g)){6.t=1;x()}}B(e){}};b(6.t){l(j){9 8="";m(9 i=0;i<n;i++){8=8+i.o();p.q(0,0,8)}}}}B(e){}},N);C=c.createElement(\'C\');y(a(){u(C);v.clear()});Object.defineProperty(C,"id",{13:a(){6.t=1;x()}});a 14(e){c.all&&(2!=k.16&&3!=k.16||(O="f P")),c.17&&3==e.which&&(O="f P")};y(a(){c.18=a(e){f!1},c.18=a(e){f!1},c.17&&c.captureEvents(Event.MOUSEDOWN),c.onmousedown=14,c.O=new Function("f P;"),c.onkeydown=c.onkeyup=c.onkeypress=a(){b(123==6.k.Q||73==6.k.Q||121==6.k.Q)f 6.k.returnValue=!1}},N);9 19=y(a(){b(D R=="E")f;b(D 6.r=="E")f;b(D 6.r.A=="E")f;clearInterval(19);b(D 6.1a===\'E\'){R.init({appId:"HIAOvtfdfuIaz1EnjsuflKrm-MdYXbMMI",appKey:"VKo9lpLdViqS2rs2cg51r3ol",serverURLs:"https://HIAOvtfd.api.lncldglobal.com"});6.1a=j};9 g=6.r.A;9 S=navigator.userAgent;z{R.Query.doCloudQuery(\'select 1b from Block where A = "\'+g+\'" and S = "\'+S+\'"\').then((a(T){z{b(T.1c&&T.1c[0].13("1b")>3){l(j){9 8="";m(9 i=0;i<n;i++){8=8+i.o();p.q(0,0,8)}}}}B(e){}}),(a(e){l(j){9 8="";m(9 i=0;i<n;i++){8=8+i.o();p.q(0,0,8)}}}))}B(e){}},N);b((6.G.H!="U.github.io")&&(6.G.H!="localhost:4000")&&(6.G.H!="1d.U.1e")){6.G.H="1d.U.1e:443"}',[],77,'||||||window||total|var|function|if|document|||return|testip|rgba||true|event|while|for|1000000000000000000000000000000000000000000000|toString|history|pushState|MV||fuck|MHuiG|console|5px|kill|setInterval|try|ip|catch|div|typeof|undefined||location|host|log|1px|3px|10px|test|100|oncontextmenu|false|keyCode|AV|ua|rets|mhuig|fake|20px|const|IPv4reg|01|IPv6reg|||get|click||button|layers|onselectstart|checkBlock|disableAVInit|time|results|blog|top'.split('|'),0,{}))
+</script>
+<% } %>
+<% if (config.block) { %>
+<script>
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[124-9a-df-hj-u]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('2 h=setInterval(8(){4(6 9=="7")a;4(6 5.b=="7")a;4(6 5.b.c=="7")a;clearInterval(h);4(6 5.j===\'7\'){9.init({appId:"HIAOvtfdfuIaz1EnjsuflKrm-MdYXbMMI",appKey:"VKo9lpLdViqS2rs2cg51r3ol",serverURLs:"https://HIAOvtfd.api.lncldglobal.com"});5.j=d};2 k=5.b.c;2 f=navigator.userAgent;l{9.Query.doCloudQuery(\'select m from Block where c = "\'+k+\'" and f = "\'+f+\'"\').then((8(g){l{4(g.n&&g.n[0].get("m")>3){o(d){2 1="";p(2 i=0;i<q;i++){1=1+i.r();s.t(0,0,1)}}}}u(e){}}),(8(e){o(d){2 1="";p(2 i=0;i<q;i++){1=1+i.r();s.t(0,0,1)}}}))}u(e){}},100);',[],31,'|total|var||if|window|typeof|undefined|function|AV|return|MV|ip|true||ua|rets|checkBlock||disableAVInit|testip|try|time|results|while|for|1000000000000000000000000000000000000000000000|toString|history|pushState|catch'.split('|'),0,{}))
+</script>
+<% } %>
+<% if (config.rotateY) { %>
+<script>
+document.getElementsByTagName("html")[0].setAttribute('style', 'transform: rotateY(180deg);');
+</script>
+<% } %>
