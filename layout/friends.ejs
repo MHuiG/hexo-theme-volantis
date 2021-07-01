@@ -36,7 +36,7 @@
             <div class='friend-content'>
               <% (group.items||[]).forEach(function(item){ %>
                 <% if (item.url && item.title) { %>
-                  <a class='friend-card'
+                  <a class='friend-card'  style='background:<%- item.backgroundColor %>; color:<%- item.textColor%>;'
                     target="_blank" rel="external nofollow noopener noreferrer" href='<%- url_for(item.url || '/') %>'>
                     <div class='friend-left'>
                       <% if (item.avatar) { %>
