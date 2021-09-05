@@ -106,9 +106,11 @@ const MainAPlayer = (() => {
   fn.updateAPlayerControllerStatus = () => {
     try {
       if (APlayer.player.audio.paused) {
+        volantis.APlayerController.status = 'pause';
         document.getElementsByClassName('nav toggle')[0].children[0].classList.add('fa-play');
         document.getElementsByClassName('nav toggle')[0].children[0].classList.remove('fa-pause');
       } else {
+        volantis.APlayerController.status = 'play';
         document.getElementsByClassName('nav toggle')[0].children[0].classList.remove('fa-play');
         document.getElementsByClassName('nav toggle')[0].children[0].classList.add('fa-pause');
       }
@@ -192,5 +194,7 @@ const MainAPlayer = (() => {
 
 Object.freeze(MainAPlayer);
 
-MainAPlayer.init();
-MainAPlayer.checkAPlayer();
+volantis.requestAnimationFrame(() => {
+  MainAPlayer.init();
+  MainAPlayer.checkAPlayer();
+});

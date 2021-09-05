@@ -1,40 +1,41 @@
-$(function () {
-  RightMenu.init();
-
-  volantis.pjax.send(() => {
-    RightMenu.hideMenu();
-  })
-});
-
-
 const RightMenu = (() => {
   const fn = {},
-        $printHtml = $('#printHtml'),
-        $menuDarkBtn = $('#menuDarkBtn'),
-        $menuLoad = $('.menuLoad-Content'),
-        _rightMenuWrapper = $('#rightmenu-wrapper')[0],
-        _rightMenuContent = $('#rightmenu-content')[0];
+    _rightMenuWrapper = document.getElementById('rightmenu-wrapper'),
+    _rightMenuContent = document.getElementById('rightmenu-content'),
+    _menuDarkBtn = document.getElementById('menuDarkBtn'),
+    _printHtml = document.getElementById('printHtml'),
+    _menuMusic = document.getElementById('menuMusic'),
+    _readingModel = document.getElementById('readingModel'),
+    _readBkg = document.getElementById('read_bkg');
 
-  const $copyText = $('.menu-Option[data-fn-type="copyText"]'),
-        $copyPaste = $('.menu-Option[data-fn-type="copyPaste"]'),
-        $copySelect = $('.menu-Option[data-fn-type="copySelect"]'),
-        $copyCut = $('.menu-Option[data-fn-type="copyCut"]'),
-        $copyHref = $('.menu-Option[data-fn-type="copyHref"]'),
-        $copySrc = $('.menu-Option[data-fn-type="copySrc"]'),
-        $copyImg = $('.menu-Option[data-fn-type="copyImg"]'),
-        $openTab = $('.menu-Option[data-fn-type="openTab"]');
+  const
+    _menuLoad = document.querySelectorAll('.menuLoad-Content'),
+    _menuOption = document.querySelector('.menu-Option'),
+    _copyText = document.querySelector('.menu-Option[data-fn-type="copyText"]'),
+    _copyPaste = document.querySelector('.menu-Option[data-fn-type="copyPaste"]'),
+    _copySelect = document.querySelector('.menu-Option[data-fn-type="copySelect"]'),
+    _copyCut = document.querySelector('.menu-Option[data-fn-type="copyCut"]'),
+    _copyHref = document.querySelector('.menu-Option[data-fn-type="copyHref"]'),
+    _copySrc = document.querySelector('.menu-Option[data-fn-type="copySrc"]'),
+    _copyImg = document.querySelector('.menu-Option[data-fn-type="copyImg"]'),
+    _openTab = document.querySelector('.menu-Option[data-fn-type="openTab"]');
 
-  const darkmodeDark = '<%= theme.rightmenu.darkmode.dark %>' || 'fa fa-moon',
-        darkmodeWhite = '<%= theme.rightmenu.darkmode.white %>' || 'fa fa-sun',
-        urlRegx = /^((https|http)?:\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/;
+  const urlRegx = /^((https|http)?:\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/;
 
   fn.init = () => {
-    $('.menu-Option').hide();
+    fn.visible(_menuMusic, false);
+    fn.visible(_menuOption, false);
+    if (_readBkg) _readBkg.parentNode.removeChild(_readBkg);
+
+    const readBkg = document.createElement("div");
+    readBkg.className = "common_read_bkg common_read_hide";
+    readBkg.id = "read_bkg";
+    window.document.body.appendChild(readBkg);
   }
 
   fn.initEvent = () => {
     window.document.oncontextmenu = (event) => {
-      if (event.ctrlKey || $(window).width() <= 500) {
+      if (event.ctrlKey || document.body.offsetWidth <= 500) {
         fn.hideMenu();
         return true;
       }
@@ -47,17 +48,11 @@ const RightMenu = (() => {
       return false;
     }
 
-    $(window).off('click.rightMenu').on('click.rightMenu', () => {
-      fn.hideMenu();
-    })
+    window.removeEventListener('blur', fn.hideMenu);
+    document.body.removeEventListener('click', fn.hideMenu);
 
-    $(window).off('blur.rightMenu').on('blur.rightMenu', () => {
-      fn.hideMenu();
-    })
-
-    $(_rightMenuWrapper).off('blur.rightMenu').on('blur.rightMenu', () => {
-      fn.hideMenu();
-    })
+    window.addEventListener('blur', fn.hideMenu);
+    document.body.addEventListener('click', fn.hideMenu);
   }
 
   // 菜单位置设定 
@@ -69,8 +64,8 @@ const RightMenu = (() => {
 
     try {
       fn.setMenuItem(event);
-      $(_rightMenuWrapper).focus();
-      _rightMenuWrapper.style.display = 'block';
+      fn.visible(_rightMenuWrapper);
+      _rightMenuWrapper.focus();
       _rightMenuWrapper.style.zIndex = '-2147483648';
       let menuWidth = _rightMenuContent.offsetWidth;
       let menuHeight = _rightMenuContent.offsetHeight;
@@ -82,7 +77,7 @@ const RightMenu = (() => {
       _rightMenuWrapper.style.top = showTop + "px";
       _rightMenuWrapper.style.zIndex = '2147483648';
     } catch (error) {
-      $(_rightMenuWrapper).blur();
+      _rightMenuWrapper.blur();
       console.error(error);
       return true;
     }
@@ -95,149 +90,171 @@ const RightMenu = (() => {
     let optionFlag = false;
     const eventTarget = event.target;
     const selectText = window.getSelection().toString();
-    $openTab.hide(); // 隐藏新标签页打开 
-
-    // 对应更改图标 
-    if ($menuDarkBtn) {
-      $menuDarkBtn.off('click.rightMenu').one('click.rightMenu', (event) => {
-        $menuDarkBtn.children().toggleClass(darkmodeDark);
-        $menuDarkBtn.children().toggleClass(darkmodeWhite);
-      })
-    }
+    fn.visible(_openTab, false); // 隐藏新标签页打开 
 
     // 判断是否是输入框 
-    if ($(eventTarget).is('input') || $(eventTarget).is('textarea')) {
-      const inputStr = $(eventTarget).val();
+    if (eventTarget.tagName.toLowerCase() === 'input' || eventTarget.tagName.toLowerCase() === 'textarea') {
+      const inputStr = eventTarget.value;
 
       // 全选 
       if (inputStr.length > 0) {
-        $copySelect.show();
-        $copySelect.off("click.rightMenu").one("click.rightMenu", () => {
-          $(eventTarget).select();
-        })
+        fn.visible(_copySelect);
+        _copySelect.onclick = () => {
+          event.preventDefault();
+          eventTarget.select();
+        }
       } else {
-        $copySelect.hide();
+        fn.visible(_copySelect, false);
       }
 
       // 剪切 
       if (selectText) {
-        $copyCut.show();
-        $copyCut.off("click.rightMenu").one("click.rightMenu", () => {
+        fn.visible(_copyCut);
+        _copyCut.onclick = () => {
           const statrPos = eventTarget.selectionStart;
           const endPos = eventTarget.selectionEnd;
           fn.copyString(selectText);
-          $(eventTarget).val(inputStr.substring(0, statrPos) + inputStr.substring(endPos, inputStr.length));
+          eventTarget.value = inputStr.substring(0, statrPos) + inputStr.substring(endPos, inputStr.length);
           eventTarget.selectionStart = statrPos;
           eventTarget.selectionEnd = statrPos;
-          $(eventTarget).focus();
-        })
+          eventTarget.focus();
+        }
       } else {
-        $copyCut.hide();
+        fn.visible(_copyCut, false);
       }
 
       // 粘贴 
       fn.readClipboard().then(text => {
         // 如果剪切板存在内容 
         if (!!text) {
-          $copyPaste.show();
-          $copyPaste.off("click.rightMenu").one("click.rightMenu", () => {
-            fn.insertAtCaret($(eventTarget), text);
-          })
+          fn.visible(_copyPaste);
+          _copyPaste.onclick = () => {
+            fn.insertAtCaret(eventTarget, text);
+          }
         } else {
-          $copyPaste.hide();
+          fn.visible(_copyPaste, false);
         }
       }).catch((err) => {
         console.error(err);
-        $copyPaste.hide();
+        fn.visible(_copyPaste, false);
       });
     } else {
-      $copySelect.hide();
-      $copyPaste.hide();
-      $copyCut.hide();
+      fn.visible(_copySelect, false);
+      fn.visible(_copyPaste, false);
+      fn.visible(_copyCut, false);
     }
 
     // 新标签打开链接 
     const eventHref = eventTarget.href;
     if (!!eventHref && urlRegx.test(eventHref)) {
       optionFlag = true;
-      $copyHref.show();
-      $openTab.show();
-      $copyHref.off("click.rightMenu").one("click.rightMenu", () => {
+      fn.visible(_copyHref);
+      fn.visible(_openTab);
+      if (_copyHref) _copyHref.onclick = () => {
         fn.copyString(eventHref);
-      });
-      $openTab.off("click.rightMenu").one("click.rightMenu", () => {
+      }
+      _openTab.onclick = () => {
         window.open(eventHref);
-      });
+      }
     } else {
-      $copyHref.hide();
+      fn.visible(_copyHref, false);
     }
 
     // 新标签打开图片 & 复制图片链接 
     const eventSrc = eventTarget.currentSrc;
     if (!!eventSrc && urlRegx.test(eventSrc)) {
       optionFlag = true;
-      $copySrc.show();
-      $openTab.show();
+      fn.visible(_copySrc);
+      fn.visible(_openTab);
 
-      $copySrc.off("click.rightMenu").one("click.rightMenu", () => {
+      _copySrc.onclick = () => {
         fn.copyString(eventSrc);
-      });
+      }
 
-      $openTab.off("click.rightMenu").one("click.rightMenu", () => {
+      _openTab.onclick = () => {
         window.open(eventSrc);
-      });
+      }
     } else {
-      $copySrc.hide();
+      fn.visible(_copySrc, false);
     }
 
     // 复制图片 
     if (!!eventSrc && urlRegx.test(eventSrc) && eventSrc.trimEnd().endsWith('.png')) {
       optionFlag = true;
-      $copyImg.show();
+      fn.visible(_copyImg);
 
-      $copyImg.off("click.rightMenu").one("click.rightMenu", () => {
-        fn.writeClipImg(event, () => {
-          volantis.message('操作提示', '复制成功！', 'success');
+      _copyImg.onclick = () => {
+        fn.writeClipImg(event, flag => {
+          if (flag && volantis.messageRightMenu.enable) volantis.message('系统提示', '图片复制成功！', {
+            icon: volantis.rightMenu.faicon + ' fa-images'
+          });
         }, (error) => {
-          volantis.message('操作提示', '复制失败：' + error, 'error');
+          if (volantis.messageRightMenu.enable) volantis.message('系统提示', '复制失败：' + error, {
+            icon: volantis.rightMenu.faicon + ' fa-exclamation-square red'
+          });
         })
-      });
+      }
     } else {
-      $copyImg.hide();
+      fn.visible(_copyImg, false);
     }
 
     // 复制文本 
     if (selectText) {
       optionFlag = true;
-      $copyText.show();
-      $copyText.off("click.rightMenu").one("click.rightMenu", () => {
+      fn.visible(_copyText);
+
+      _copyText.onclick = () => {
         fn.copyString(selectText);
-      })
+      }
     } else {
-      $copyText.hide();
+      fn.visible(_copyText, false);
     }
 
     // 打印 
-    const _printArticle = $('#post.article').html() || null;
+    const _printArticle = document.querySelector('#post.article') || null;
     const pathName = window.location.pathname;
     if (!!_printArticle) {
-      $printHtml.show();
-      $printHtml.off("click.rightMenu").one('click.rightMenu', (event) => {
-        if (window.location.pathname === pathName) {
-          fn.printHtml();
-        } else {
-          fn.hideMenu();
+      fn.visible(_printHtml);
+      fn.visible(_readingModel);
+
+      if (_printHtml) {
+        _printHtml.onclick = () => {
+          if (window.location.pathname === pathName) {
+            const message = '是否打印当前页面？<br><em style="font-size: 80%">建议打印时勾选背景图形</em><br>';
+            if (volantis.messageRightMenu.enable) volantis.question('', message, {}, () => {
+              fn.printHtml();
+            })
+          } else {
+            fn.hideMenu();
+          }
         }
-      })
+      }
+
+      if (_readingModel) {
+        _readingModel.onclick = () => {
+          if (window.location.pathname === pathName) {
+            fn.readingModel();
+          } else {
+            fn.readingModel();
+          }
+        }
+      }
+
     } else {
-      $printHtml.hide();
+      fn.visible(_printHtml, false);
+      fn.visible(_readingModel, false);
     }
 
-    if (optionFlag) {
-      $menuLoad.hide();
+    if (volantis.APlayerController.status === 'play') {
+      optionFlag = true;
+      fn.visible(_menuMusic);
     } else {
-      $menuLoad.show();
+      fn.visible(_menuMusic, false);
     }
+
+    _menuLoad.forEach(ele => {
+      fn.visible(ele, !optionFlag);
+    })
 
     if (volantis.rightMenu.music == true) {
       if (volantis.APlayerController.APlayerLoaded) {
@@ -248,16 +265,22 @@ const RightMenu = (() => {
 
   // 隐藏菜单 
   fn.hideMenu = () => {
-    _rightMenuWrapper.style.display = 'none';
+    fn.visible(_rightMenuWrapper, false);
   }
 
   // 复制字符串 
   fn.copyString = (str) => {
-    fn.writeClipText(str)
+    VolantisApp.writeClipText(str)
       .then(() => {
-        volantis.message('操作提示', str.length > 120 ? str.substring(0, 120) + '...' : str, 'info');
+        if (volantis.messageCopyright && volantis.messageCopyright.enable && volantis.messageRightMenu.enable) {
+          volantis.message(volantis.messageCopyright.title, volantis.messageCopyright.message, {
+            icon: volantis.messageCopyright.icon
+          });
+        }
       }).catch(e => {
-        volantis.message('操作提示', e, 'error');
+        if (volantis.messageRightMenu.enable) volantis.message('系统提示', e, {
+          icon: volantis.rightMenu.faicon + ' fa-exclamation-square red'
+        });
       })
   }
 
@@ -297,7 +320,9 @@ const RightMenu = (() => {
 
   // 写入图片到剪切板 
   fn.writeClipImg = async function (event, success, error) {
-    const eventSrc = event.target.currentSrc;
+    const eventSrc = volantis.rightMenu.customPicUrl === true ?
+      event.target.currentSrc.replace(volantis.rightMenu.picOld, volantis.rightMenu.picNew) :
+      event.target.currentSrc;
     const parentElement = event.target.parentElement;
     try {
       const data = await fetch(eventSrc);
@@ -308,7 +333,7 @@ const RightMenu = (() => {
             [blob.type]: blob
           })
         ]).then(() => {
-          success();
+          success(true);
         }, (e) => {
           console.error('图片复制失败：', e);
           error(e);
@@ -329,7 +354,7 @@ const RightMenu = (() => {
         }
         document.execCommand('copy');
         window.getSelection().removeAllRanges();
-        success();
+        success(false);
       } catch (e) {
         console.error(e);
         error('不支持复制当前图片！');
@@ -354,26 +379,25 @@ const RightMenu = (() => {
   }
 
   // 粘贴文本 
-  fn.insertAtCaret = ($elemt, value) => {
-    const elemt = $elemt[0];
+  fn.insertAtCaret = (elemt, value) => {
     const startPos = elemt.selectionStart,
       endPos = elemt.selectionEnd;
     if (document.selection) {
-      $elemt.focus();
+      elemt.focus();
       var sel = document.selection.createRange();
       sel.text = value;
-      $elemt.focus();
+      elemt.focus();
     } else {
       if (startPos || startPos == '0') {
         var scrollTop = elemt.scrollTop;
         elemt.value = elemt.value.substring(0, startPos) + value + elemt.value.substring(endPos, elemt.value.length);
-        $elemt.focus();
+        elemt.focus();
         elemt.selectionStart = startPos + value.length;
         elemt.selectionEnd = startPos + value.length;
         elemt.scrollTop = scrollTop;
       } else {
-        $elemt.value += value;
-        $elemt.focus();
+        elemt.value += value;
+        elemt.focus();
       }
     }
   }
@@ -382,58 +406,41 @@ const RightMenu = (() => {
   fn.printHtml = () => {
     if (volantis.isReadModel) fn.readingModel();
     if (volantis.rightMenu.defaultStyles === true) {
-      $('body').css({
-        'backgroundColor': 'unset'
-      });
-      $('#l_header').hide();
-      $('#l_cover').hide();
-      $('#l_side').hide();
-      $('#l_main').css({
-        'width': '100%'
-      });
-      $('#post').css({
-        'box-shadow': 'none',
-        'background': 'none',
-        'padding': '0'
-      });
-      $('h1').css({
-        'text-align': 'center',
-        'font-weight': '600',
-        'font-size': '2rem',
-        'margin-bottom': '20px'
-      });
-      $('.prev-next').hide();
-      $('#bottom').children().append('<div class="new-meta-item"><a class="tag" href="' + window.location.href + '" rel="nofollow" data-pjax-state=""><i class="fad fa-external-link fa-fw" aria-hidden="true"></i><p>本文地址：' + window.location.href + '</p></a></div>');
-      $('#comments').hide();
-      $('#s-top').hide();
-      $('footer').hide();
-      $('#rightmenu-wrapper').hide();
-      $('details').attr('open', 'true');
-      $('.tab-pane').css({
-        'display': 'block'
-      });
-      $('.tab-content').css({
-        'border-top': 'none'
-      });
-      $('.highlight>table pre').css({
-        'white-space': 'pre-wrap',
-        'word-break': 'break-all'
-      });
-      $('.nav-tabs').hide();
-      $('.backstretch').hide();
-      $('.fancybox img').css({
-        'height': 'auto',
-        'weight': 'auto'
-      });
-      $('#common_bkg').hide();
-      $('img').removeAttr('srcset data-srcset').removeClass('img lazyload loaded');
+      fn.setAttribute('details', 'open', 'true');
+      fn.remove('.cus-article-bkg');
+      fn.remove('.iziToast-overlay');
+      fn.remove('.iziToast-wrapper');
+      fn.remove('.prev-next');
+      fn.remove('#l_header');
+      fn.remove('#l_cover');
+      fn.remove('#l_side');
+      fn.remove('#comments');
+      fn.remove('#s-top');
+      fn.remove('footer');
+      fn.remove('#rightmenu-wrapper');
+      fn.remove('.nav-tabs');
+      fn.remove('#BKG');
+      fn.setStyle('body', 'backgroundColor', 'unset');
+      fn.setStyle('#l_main', 'width', '100%');
+      fn.setStyle('#post', 'boxShadow', 'none');
+      fn.setStyle('#post', 'background', 'none');
+      fn.setStyle('#post', 'padding', '0');
+      fn.setStyle('h1', 'textAlign', 'center');
+      fn.setStyle('h1', 'fontWeight', '600');
+      fn.setStyle('h1', 'fontSize', '2rem');
+      fn.setStyle('h1', 'marginBottom', '20px');
+      fn.setStyle('.tab-pane', 'display', 'block');
+      fn.setStyle('.tab-content', 'borderTop', 'none');
+      fn.setStyle('.highlight>table pre', 'whiteSpace', 'pre-wrap');
+      fn.setStyle('.highlight>table pre', 'wordBreak', 'break-all');
+      fn.setStyle('.fancybox img', 'height', 'auto');
+      fn.setStyle('.fancybox img', 'weight', 'auto');
     }
 
     if (volantis.rightMenu.printJs === true) {
       volantis.rightMenu.printJsFun();
     }
 
-    $(document).click();
     setTimeout(() => {
       window.print();
       document.body.innerHTML = '';
@@ -441,26 +448,170 @@ const RightMenu = (() => {
     }, 50);
   }
 
+  // 阅读模式
+  fn.readingModel = () => {
+    if (typeof ScrollReveal === 'function') ScrollReveal().clean('#comments');
+    fn.fadeToggle(document.querySelector('#l_header'))
+    fn.fadeToggle(document.querySelector('footer'))
+    fn.fadeToggle(document.querySelector('#s-top'))
+    fn.fadeToggle(document.querySelector('.article-meta#bottom'))
+    fn.fadeToggle(document.querySelector('.prev-next'))
+    fn.fadeToggle(document.querySelector('#l_side'))
+    fn.fadeToggle(document.querySelector('#comments'))
+
+    fn.toggleClass(document.querySelector('#l_main'), 'common_read')
+    fn.toggleClass(document.querySelector('#l_main'), 'common_read_main')
+    fn.toggleClass(document.querySelector('#l_body'), 'common_read')
+    fn.toggleClass(document.querySelector('#safearea'), 'common_read')
+    fn.toggleClass(document.querySelector('#pjax-container'), 'common_read')
+    fn.toggleClass(document.querySelector('#read_bkg'), 'common_read_hide')
+    fn.toggleClass(document.querySelector('h1'), 'common_read_h1')
+    fn.toggleClass(document.querySelector('#post'), 'post_read')
+    fn.toggleClass(document.querySelector('#l_cover'), 'read_cover')
+    fn.toggleClass(document.querySelector('.widget.toc-wrapper'), 'post_read')
+
+    volantis.isReadModel = volantis.isReadModel === undefined ? true : !volantis.isReadModel;
+    if (volantis.isReadModel) {
+      const option = {
+        backgroundColor: 'var(--color-read-post)',
+        icon: volantis.rightMenu.faicon + ' fa-book-reader',
+        time: 5000
+      }
+      if (volantis.messageRightMenu.enable) volantis.message('系统提示', '阅读模式已开启，您可以点击屏幕空白处退出。', option);
+      document.querySelector('#l_body').removeEventListener('click', fn.readingModel);
+      document.querySelector('#l_body').addEventListener('click', (event) => {
+        if (fn.hasClass(event.target, 'common_read')) {
+          fn.readingModel();
+        }
+      });
+    } else {
+      document.querySelector('#l_body').removeEventListener('click', fn.readingModel);
+      document.querySelector('#post').removeEventListener('click', fn.readingModel);
+    }
+  }
+
+  // 控制元素显示隐藏
+  fn.visible = (ele, type = true) => {
+    if (ele) ele.style.display = type === true ? 'block' : 'none';
+  }
+
+  // 移除元素
+  fn.remove = (param) => {
+    const node = document.querySelectorAll(param);
+    node.forEach(ele => {
+      ele.remove();
+    })
+  }
+
+  //设置属性
+  fn.setAttribute = (param, attrName, attrValue) => {
+    const node = document.querySelectorAll(param);
+    node.forEach(ele => {
+      ele.setAttribute(attrName, attrValue)
+    })
+  }
+
+  // 设置样式
+  fn.setStyle = (param, styleName, styleValue) => {
+    const node = document.querySelectorAll(param);
+    node.forEach(ele => {
+      ele.style[styleName] = styleValue;
+    })
+  }
+
+  fn.fadeIn = (e) => {
+    if (!e) return;
+    e.style.visibility = "visible";
+    e.style.opacity = 1;
+    e.style.display = "block";
+    e.style.transition = "all 0.5s linear";
+    return e
+  }
+
+  fn.fadeOut = (e) => {
+    if (!e) return;
+    e.style.visibility = "hidden";
+    e.style.opacity = 0;
+    e.style.display = "none";
+    e.style.transition = "all 0.5s linear";
+    return e
+  }
+
+  fn.fadeToggle = (e) => {
+    if (!e) return;
+    if (e.style.visibility == "hidden") {
+      e = fn.fadeIn(e)
+    } else {
+      e = fn.fadeOut(e)
+    }
+    return e
+  }
+
+  fn.hasClass = (e, c) => {
+    if (!e) return;
+    return e.className.match(new RegExp('(\\s|^)' + c + '(\\s|$)'));
+  }
+
+  fn.addClass = (e, c) => {
+    if (!e) return;
+    e.classList.add(c);
+    return e
+  }
+
+  fn.removeClass = (e, c) => {
+    if (!e) return;
+    e.classList.remove(c);
+    return e
+  }
+
+  fn.toggleClass = (e, c) => {
+    if (!e) return;
+    if (fn.hasClass(e, c)) {
+      fn.removeClass(e, c)
+    } else {
+      fn.addClass(e, c)
+    }
+    return e
+  }
+
   return {
     init: (notice = false) => {
       fn.init();
       fn.initEvent();
-      if (notice) volantis.message('操作提示', '自定义右键注册成功。', 'success');
+      if (notice && volantis.messageRightMenu.enable) volantis.message('系统提示', '自定义右键注册成功。');
     },
     destroy: (notice = false) => {
       fn.hideMenu();
-      $(window).off('click.rightMenu');
-      $(window).off('blur.rightMenu');
-      $(_rightMenuWrapper).off('blur.rightMenu');
       window.document.oncontextmenu = () => {
         return true
       };
-      if (notice) volantis.message('操作提示', '自定义右键注销成功。', 'success');
+      if (notice && volantis.messageRightMenu.enable) volantis.message('系统提示', '自定义右键注销成功。');
     },
     hideMenu: () => {
       fn.hideMenu();
+    },
+    readingModel: () => {
+      fn.readingModel();
     }
   }
 })()
 
 Object.freeze(RightMenu);
+
+volantis.requestAnimationFrame(() => {
+  if (document.readyState !== 'loading') {
+    RightMenu.init();
+
+    volantis.pjax.send(() => {
+      RightMenu.hideMenu();
+    })
+  } else {
+    document.addEventListener("DOMContentLoaded", function () {
+      RightMenu.init();
+
+      volantis.pjax.send(() => {
+        RightMenu.hideMenu();
+      })
+    })
+  }
+});

@@ -1,0 +1,72 @@
+<script>
+  volantis.APlayerController = {};
+  volantis.APlayerController.id = '<%= theme.plugins.aplayer.id %>';  // 设定全局音乐播放ID
+  volantis.APlayerController.volume = '<%= theme.plugins.aplayer.volume %>';
+  volantis.css("https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css");
+  (async () => {
+    // APlayer 需要在  MetingJS 之前加载
+    await volantis.js("<%- theme.plugins.aplayer.js.aplayer %>")
+    await volantis.js("<%- theme.plugins.aplayer.js.meting %>")
+  <% if (theme.rightmenu.enable && theme.rightmenu.layout.includes('music')) { %>
+    // 右键 music 需要在 APlayer  MetingJS 之后加载
+    await volantis.js('<%- theme.cdn.addJS("aplayer") %>')
+    volantis.APlayerController.music = true;
+  <% } %>
+  })();
+
+  function SetAPlayerPlugin(){
+    let Metings = document.querySelectorAll('meting-js');
+    if (Metings[0].aplayer && Metings[0].aplayer.on) {
+      // improve the accessibility https://web.dev/button-name/
+      document.querySelectorAll(".aplayer-icon-menu").forEach(e=>{
+        e.setAttribute("aria-label","Aplayer Menu")
+      })
+      // message see: /layout/_plugins/message/script.ejs
+      <% if (theme.plugins.message.enable && theme.plugins.message.aplayer.enable) { %>
+        try {
+          setTimeout(() => {
+            Metings.forEach((item, index) => {
+              const aplayer = item.aplayer;
+              const rightMenuAplayer = item.meta.id === volantis.APlayerController.id && volantis.APlayerController.music;
+              if(rightMenuAplayer) MainAPlayer.checkAPlayer();
+              if(!aplayer) return;
+              if(aplayer.events.events.play.every(item => {return item.name !== 'messagePlay'})) {
+                aplayer.on('play', function messagePlay() {
+                  let index = aplayer.list.index;
+                  let title = aplayer.list.audios[index].title;
+                  let artist = aplayer.list.audios[index].artist;
+                  volantis.message('音乐通知', '正在播放：' + title + ' - ' + artist, {
+                      icon: '<%- theme.plugins.message.aplayer.play %>'
+                  });
+                  if(rightMenuAplayer) volantis.APlayerController.status = 'play';
+                });
+              }
+              if(item.aplayer.events.events.pause.every(item => {return item.name !== 'messagePause'})) {
+                aplayer.on('pause', function messagePause() {
+                  let index = aplayer.list.index;
+                  let title = aplayer.list.audios[index].title;
+                  let artist = aplayer.list.audios[index].artist;
+                  setTimeout(() => {
+                    // 歌曲播放结束也会触发 pause 事件，为了避免错误提示，等待一会儿
+                    if(aplayer.paused)
+                      volantis.message('音乐通知', '暂停播放：' + title + ' - ' + artist, {
+                          icon: '<%- theme.plugins.message.aplayer.pause %>'
+                      });
+                  }, 100)
+                  if(rightMenuAplayer) volantis.APlayerController.status = 'pause';
+                });
+              }
+            });
+          }, 500)
+        } catch (error) { console.error(error); }
+      <% } %>
+    }else{
+      volantis.requestAnimationFrame(SetAPlayerPlugin)
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", ()=>{
+    SetAPlayerPlugin();
+  });
+  volantis.pjax.push(SetAPlayerPlugin);
+</script>
